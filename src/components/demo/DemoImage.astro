@@ -1,0 +1,27 @@
+---
+interface Props {
+  image: string;
+  alt?: string;
+  priority?: boolean;
+  portrait?: boolean;
+  class?: string;
+}
+const { image, alt = '', priority = false, portrait = false, class: className } = Astro.props;
+const small = portrait ? 480 : 800,
+  large = portrait ? 800 : 1600;
+---
+
+<picture class={className}>
+  <source
+    srcset={`/images/${image}-${small}.webp ${small}w, /images/${image}-${large}.webp ${large}w`}
+    sizes={portrait ? '(max-width: 767px) 90vw, 40vw' : '(max-width: 767px) 100vw, 90vw'}
+  />
+  <img
+    src={`/images/${image}-${large}.webp`}
+    alt={alt}
+    width={portrait ? 1024 : 1664}
+    height={portrait ? 1536 : 941}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : 'auto'}
+  />
+</picture>

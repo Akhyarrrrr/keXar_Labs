@@ -1,0 +1,123 @@
+---
+import type { Locale } from '@/lib/content';
+import { demoLabels, type ConceptId, type DemoContent } from '@/lib/demos';
+import DemoImage from './DemoImage.astro';
+import { ArrowLeftIcon, ArrowUpRightIcon } from '@phosphor-icons/react/dist/ssr';
+interface Props {
+  locale: Locale;
+  concept: ConceptId;
+  content: DemoContent;
+  kind: string;
+  slug: string;
+}
+const { locale, concept, content, kind, slug } = Astro.props;
+const t = demoLabels[locale],
+  base = `/${locale}/demo/${concept}/`;
+const practice = content.practices.find((item) => item.slug === slug);
+const person = content.people.find((item) => item.slug === slug);
+const article = content.articles.find((item) => item.slug === slug);
+---
+
+{kind === 'practices' && practice && (
+  <>
+    <section class="legal-page-heading">
+      <a href={`${base}practices/`} class="legal-breadcrumb">
+        {t.practices} / {practice.title}
+      </a>
+      <h1>{practice.title}</h1>
+      <p>{practice.intro}</p>
+    </section>
+    <DemoImage image={content.image} class="legal-detail-photo" />
+    <section class="legal-section legal-detail-grid">
+      <aside>
+        <h2>{t.scope}</h2>
+        <ul>
+          {practice.work.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <a href={`${base}contact/`} class="demo-button">
+          {t.conversation} <ArrowUpRightIcon size={18} aria-hidden="true" />
+        </a>
+      </aside>
+      <div>
+        {practice.sections.map(([title, body]) => (
+          <article>
+            <h2>{title}</h2>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+    <section class="legal-section legal-related">
+      <h2>{t.related}</h2>
+      {content.practices
+        .filter((item) => item.slug !== slug)
+        .map((item) => (
+          <a href={`${base}practices/${item.slug}/`}>
+            {item.title} <ArrowUpRightIcon size={18} aria-hidden="true" />
+          </a>
+        ))}
+    </section>
+  </>
+)}
+{kind === 'people' && person && (
+  <section class="legal-section legal-profile">
+    <div>
+      <DemoImage
+        image={person.portrait}
+        portrait
+        priority
+        alt={`${person.name} — ${t.synthetic}`}
+      />
+      <p class="portrait-note">{t.synthetic}</p>
+    </div>
+    <div>
+      <a href={`${base}people/`} class="legal-breadcrumb">
+        <ArrowLeftIcon size={18} aria-hidden="true" /> {t.people}
+      </a>
+      <h1>{person.name}</h1>
+      <p class="legal-role">{person.role}</p>
+      <p class="legal-profile-intro">{person.intro}</p>
+      {person.bio.map(([title, body]) => (
+        <article>
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </article>
+      ))}
+      <h2>{t.areas}</h2>
+      <ul>
+        {person.focus.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <a class="demo-button" href={`${base}contact/`}>
+        {t.conversation} <ArrowUpRightIcon size={18} aria-hidden="true" />
+      </a>
+    </div>
+  </section>
+)}
+{kind === 'insights' && article && (
+  <>
+    <section class="legal-page-heading legal-article-heading">
+      <a href={`${base}insights/`} class="legal-breadcrumb">
+        <ArrowLeftIcon size={18} aria-hidden="true" /> {t.insights}
+      </a>
+      <h1>{article.title}</h1>
+      <p>{article.intro}</p>
+    </section>
+    <DemoImage image={article.image} class="legal-detail-photo" priority />
+    <article class="legal-article-body">
+      <p class="legal-article-note">{t.articleNote}</p>
+      {article.sections.map(([title, body]) => (
+        <section>
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </section>
+      ))}
+      <a class="legal-text-link" href={`${base}insights/`}>
+        <ArrowLeftIcon size={18} aria-hidden="true" /> {t.insights}
+      </a>
+    </article>
+  </>
+)}

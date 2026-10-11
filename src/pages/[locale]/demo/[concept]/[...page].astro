@@ -1,0 +1,83 @@
+---
+import { locales, type Locale } from '@/lib/content';
+import { conceptIds, demos, demoLabels, demoPages, type ConceptId } from '@/lib/demos';
+import DemoLayout from '@/layouts/DemoLayout.astro';
+import DemoHome from '@/components/demo/DemoHome.astro';
+import DemoListing from '@/components/demo/DemoListing.astro';
+import DemoDetail from '@/components/demo/DemoDetail.astro';
+import { DemoContact } from '@/components/demo-contact';
+import { ArrowUpRightIcon } from '@phosphor-icons/react/dist/ssr';
+export function getStaticPaths() {
+  return locales.flatMap((locale) =>
+    conceptIds.flatMap((concept) =>
+      demoPages(demos[concept][locale]).map((page) => ({ params: { locale, concept, page } })),
+    ),
+  );
+}
+const { locale: rawLocale, concept: rawConcept, page } = Astro.params;
+const locale = rawLocale as Locale,
+  concept = rawConcept as ConceptId,
+  content = demos[concept][locale],
+  t = demoLabels[locale];
+const [kind, slug] = (page || '').split('/');
+const detail =
+  kind === 'practices'
+    ? content.practices.find((item) => item.slug === slug)
+    : kind === 'people'
+      ? content.people.find((item) => item.slug === slug)
+      : content.articles.find((item) => item.slug === slug);
+const title = !page
+  ? content.hero
+  : slug && detail
+    ? 'name' in detail
+      ? detail.name
+      : detail.title
+    : t[kind as 'practices' | 'people' | 'insights' | 'contact'];
+const path = page ? `${page}/` : '';
+---
+
+<DemoLayout
+  locale={locale}
+  concept={concept}
+  content={content}
+  path={path}
+  title={title}
+  description={detail?.intro || content.heroNote}
+>
+  {!page && <DemoHome locale={locale} concept={concept} content={content} />}
+  {page && !slug && kind !== 'contact' && (
+    <DemoListing
+      locale={locale}
+      concept={concept}
+      content={content}
+      kind={kind as 'practices' | 'people' | 'insights'}
+    />
+  )}
+  {slug && (
+    <DemoDetail locale={locale} concept={concept} content={content} kind={kind} slug={slug} />
+  )}
+  {kind === 'contact' && (
+    <>
+      <section class="legal-page-heading">
+        <h1>{t.contact}</h1>
+        <p>{content.contactNote}</p>
+      </section>
+      <section class="legal-section legal-contact-layout">
+        <aside>
+          <h2>{t.next}</h2>
+          <p>{t.fiction}</p>
+          <p>
+            {locale === 'id'
+              ? 'Tidak ada alamat, nomor, atau inbox nyata untuk firma demonstrasi ini.'
+              : 'There is no real address, phone number, or inbox for this demonstration firm.'}
+          </p>
+          <a href={`/${locale}/contact/?service=legal-web`} class="legal-text-link">
+            {locale === 'id' ? 'Diskusikan website dengan keXar' : 'Discuss a website with keXar'}{' '}
+            <ArrowUpRightIcon size={18} aria-hidden="true" />
+          </a>
+        </aside>
+        <DemoContact locale={locale} client:visible />
+      </section>
+    </>
+  )}
+</DemoLayout>

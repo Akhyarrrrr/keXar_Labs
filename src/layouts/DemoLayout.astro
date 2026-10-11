@@ -1,0 +1,155 @@
+---
+import type { Locale } from '@/lib/content';
+import { demoLabels, type ConceptId, type DemoContent } from '@/lib/demos';
+import { pageMeta } from '@/lib/seo';
+import { ArrowLeftIcon, ArrowUpRightIcon, ListIcon } from '@phosphor-icons/react/dist/ssr';
+import '@/styles/global.css';
+import '@/styles/demo.css';
+interface Props {
+  locale: Locale;
+  concept: ConceptId;
+  content: DemoContent;
+  path: string;
+  title: string;
+  description: string;
+}
+const { locale, concept, content, path, title, description } = Astro.props;
+const t = demoLabels[locale],
+  base = `/${locale}/demo/${concept}/`,
+  other = locale === 'en' ? 'id' : 'en';
+const meta = pageMeta(locale, `${title} — ${content.name}`, description, `demo/${concept}/${path}`);
+const font =
+  concept === 'corporate'
+    ? 'librebaskerville'
+    : concept === 'litigation'
+      ? 'sora'
+      : 'cormorantgaramond';
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — {content.name} · keXar concept</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex,follow" />
+    {meta.canonical && <link rel="canonical" href={meta.canonical} />}
+    {meta.alternates.map(({ lang, href }) => (
+      <link rel="alternate" hreflang={lang} href={href} />
+    ))}
+    <meta property="og:title" content={`${title} — ${content.name}`} />
+    <meta property="og:description" content={t.fiction} />
+    <meta property="og:type" content="website" />
+    {meta.image && <meta property="og:image" content={meta.image} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body class={`legal-site legal-${concept}`}>
+    <a href="#main-content" class="skip-link">
+      {locale === 'id' ? 'Lewati ke konten' : 'Skip to content'}
+    </a>
+    <div class="demo-banner">
+      <a href={`/${locale}/showcase/`}>
+        <ArrowLeftIcon size={16} aria-hidden="true" /> {t.back}
+      </a>
+      <span>{t.fiction}</span>
+    </div>
+    <header class="legal-header">
+      <a href={base} class="legal-brand">
+        {content.name}
+        <span>{content.descriptor}</span>
+      </a>
+      <nav
+        class="legal-nav"
+        aria-label={
+          locale === 'id' ? 'Navigasi firma demonstrasi' : 'Demonstration firm navigation'
+        }
+      >
+        {(['practices', 'people', 'insights', 'contact'] as const).map((key) => (
+          <a href={`${base}${key}/`} aria-current={path.startsWith(key) ? 'page' : undefined}>
+            {t[key]}
+          </a>
+        ))}
+      </nav>
+      <div class="legal-controls">
+        <a
+          data-demo-language
+          href={`/${other}/demo/${concept}/${path}`}
+          lang={other}
+          aria-label={
+            other === 'id'
+              ? 'ID — Baca halaman ini dalam bahasa Indonesia'
+              : 'EN — Read this page in English'
+          }
+        >
+          {other.toUpperCase()}
+        </a>
+        <details class="legal-mobile-menu">
+          <summary>
+            Menu <ListIcon size={18} aria-hidden="true" />
+          </summary>
+          <nav aria-label={locale === 'id' ? 'Navigasi mobile' : 'Mobile navigation'}>
+            {(['practices', 'people', 'insights', 'contact'] as const).map((key) => (
+              <a href={`${base}${key}/`}>{t[key]}</a>
+            ))}
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main id="main-content">
+      <slot />
+    </main>
+    <footer class="legal-footer">
+      <div>
+        <a href={base} class="legal-brand">
+          {content.name}
+          <span>{content.descriptor}</span>
+        </a>
+        <p>{t.fiction}</p>
+      </div>
+      <nav aria-label={locale === 'id' ? 'Navigasi penutup' : 'Footer navigation'}>
+        {(['practices', 'people', 'insights', 'contact'] as const).map((key) => (
+          <a href={`${base}${key}/`}>{t[key]}</a>
+        ))}
+      </nav>
+      <div class="legal-footer-bottom">
+        <span>
+          {locale === 'id'
+            ? 'Website konsep orisinal oleh keXar Labs'
+            : 'An original website concept by keXar Labs'}
+        </span>
+        <a href={`/${locale}/contact/?service=legal-web`}>
+          {locale === 'id' ? 'Diskusikan website serupa' : 'Discuss a website like this'}{' '}
+          <ArrowUpRightIcon size={18} aria-hidden="true" />
+        </a>
+      </div>
+    </footer>
+    <script>
+      const language = document.querySelector<HTMLAnchorElement>('[data-demo-language]');
+      if (language) {
+        const syncLocation = () => {
+          const target = new URL(language.href);
+          target.search = location.search;
+          target.hash = location.hash;
+          language.href = target.href;
+        };
+        syncLocation();
+        window.addEventListener('hashchange', syncLocation);
+        language.addEventListener('click', () => {
+          syncLocation();
+          const locale = new URL(language.href).pathname.split('/')[1];
+          document.cookie = `kexar-language=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
+        });
+      }
+      document.addEventListener('keydown', (event) => {
+        const menu = document.querySelector<HTMLDetailsElement>('.legal-mobile-menu');
+        if (event.key === 'Escape' && menu?.open) {
+          menu.open = false;
+          menu.querySelector('summary')?.focus();
+        }
+      });
+    </script>
+  </body>
+</html>

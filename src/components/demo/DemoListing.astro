@@ -1,0 +1,87 @@
+---
+import type { Locale } from '@/lib/content';
+import { demoLabels, type ConceptId, type DemoContent } from '@/lib/demos';
+import DemoImage from './DemoImage.astro';
+import { ArrowUpRightIcon } from '@phosphor-icons/react/dist/ssr';
+interface Props {
+  locale: Locale;
+  concept: ConceptId;
+  content: DemoContent;
+  kind: 'practices' | 'people' | 'insights';
+}
+const { locale, concept, content, kind } = Astro.props;
+const t = demoLabels[locale],
+  base = `/${locale}/demo/${concept}/`;
+---
+
+<section class="legal-page-heading">
+  <a href={base} class="legal-breadcrumb">
+    {t.home} / {t[kind]}
+  </a>
+  <h1>{t[kind]}</h1>
+  <p>
+    {kind === 'practices'
+      ? content.statementNote
+      : kind === 'people'
+        ? locale === 'id'
+          ? 'Profil fiktif yang menunjukkan kejelasan peran dan bidang fokus.'
+          : 'Fictional profiles that make roles and areas of focus clear.'
+        : locale === 'id'
+          ? 'Catatan contoh untuk membuka percakapan. Seluruh artikel fiktif dan bukan nasihat hukum.'
+          : 'Example notes to begin a conversation. All articles are fictional and are not legal advice.'}
+  </p>
+</section>
+<section class="legal-section">
+  {kind === 'practices' && (
+    <div class="legal-practice-index">
+      {content.practices.map((practice) => (
+        <article>
+          <h2>{practice.title}</h2>
+          <p>{practice.intro}</p>
+          <ul>
+            {practice.work.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <a class="legal-text-link" href={`${base}practices/${practice.slug}/`}>
+            {t.learn} <ArrowUpRightIcon size={18} aria-hidden="true" />
+          </a>
+        </article>
+      ))}
+    </div>
+  )}
+  {kind === 'people' && (
+    <div class="legal-people-grid">
+      {content.people.map((person) => (
+        <article>
+          <a href={`${base}people/${person.slug}/`} aria-label={`${t.profile}: ${person.name}`}>
+            <DemoImage image={person.portrait} portrait alt={`${person.name} — ${t.synthetic}`} />
+          </a>
+          <span class="portrait-note">{t.synthetic}</span>
+          <h2>{person.name}</h2>
+          <p>{person.role}</p>
+          <p>{person.intro}</p>
+          <a class="legal-text-link" href={`${base}people/${person.slug}/`}>
+            {t.profile} <ArrowUpRightIcon size={18} aria-hidden="true" />
+          </a>
+        </article>
+      ))}
+    </div>
+  )}
+  {kind === 'insights' && (
+    <div class="legal-article-grid">
+      {content.articles.map((article) => (
+        <article>
+          <a href={`${base}insights/${article.slug}/`}>
+            <DemoImage image={article.image} />
+            <h2>{article.title}</h2>
+          </a>
+          <p>{article.intro}</p>
+          <a class="legal-text-link" href={`${base}insights/${article.slug}/`}>
+            {t.learn} <ArrowUpRightIcon size={18} aria-hidden="true" />
+          </a>
+        </article>
+      ))}
+    </div>
+  )}
+</section>

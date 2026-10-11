@@ -1,0 +1,72 @@
+---
+import StudioLayout from '@/layouts/StudioLayout.astro';
+import { CTA, ContactBand } from '@/components/ui';
+import { locales, services } from '@/lib/content';
+export function getStaticPaths() {
+  return locales.flatMap((locale) =>
+    services[locale].map((service) => ({
+      params: { locale, service: service.id },
+      props: { locale, service },
+    })),
+  );
+}
+const { locale, service: s } = Astro.props;
+const id = locale === 'id';
+const image = {
+  'legal-web': 'corporate-hero',
+  redesign: 'library',
+  'web-app': 'litigation-hero',
+  seo: 'hero-light',
+  server: 'corporate-hero',
+  ai: 'private-hero',
+}[s.id];
+---
+
+<StudioLayout locale={locale} title={s.title} description={s.intro} path={`services/${s.id}/`}>
+  <section class="page-hero">
+    <h1>{s.title}</h1>
+    <p>{s.intro}</p>
+    <CTA locale={locale} service={s.id} />
+  </section>
+  <img
+    class="page-photo"
+    src={`/images/${image}-1600.webp`}
+    srcset={`/images/${image}-800.webp 800w, /images/${image}-1600.webp 1600w`}
+    sizes="100vw"
+    alt=""
+    width="1664"
+    height="941"
+    loading="lazy"
+  />
+  <section class="section detail-grid">
+    <div>
+      <h2>{id ? 'Kebutuhan yang ditangani' : 'What we can help with'}</h2>
+      <ul>
+        {s.needs.map((n) => (
+          <li>{n}</li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h2>{id ? 'Hasil pekerjaan' : 'What the work includes'}</h2>
+      <ul>
+        {s.deliverables.map((d) => (
+          <li>{d}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="example-section">
+    <h2>{id ? 'Contoh penggunaan' : 'An example use case'}</h2>
+    <p>{s.example}</p>
+  </section>
+  <section class="section scope-note">
+    <p>
+      {id
+        ? 'Ruang lingkup, teknologi, harga, dan durasi disepakati setelah brief.'
+        : 'Scope, technology, pricing, and timing are agreed after the brief.'}
+    </p>
+    <CTA locale={locale} service={s.id} />
+  </section>
+  <ContactBand locale={locale} />
+</StudioLayout>

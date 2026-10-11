@@ -1,0 +1,37 @@
+---
+import StudioLayout from '@/layouts/StudioLayout.astro';
+import { ContactForm } from '@/components/contact-form';
+import { copy, publicConfig, whatsappUrl } from '@/lib/content';
+import { localePaths } from '@/lib/routes';
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+
+<StudioLayout locale={locale} title={t.nav[3]} description={t.contactNote} path="contact/">
+  <section class="page-hero">
+    <h1>{t.contactTitle}</h1>
+    <p>{t.contactNote}</p>
+  </section>
+  <section class="contact-layout section">
+    <aside>
+      <h2>{t.formTitle}</h2>
+      <p>
+        {locale === 'id'
+          ? 'Harga custom mengikuti ruang lingkup. Ceritakan konteks, tujuan, dan kebutuhan firma Anda terlebih dahulu.'
+          : 'Custom pricing follows the scope. Tell us about your context, goals, and requirements first.'}
+      </p>
+      {publicConfig.email && (
+        <a class="text-link" href={`mailto:${publicConfig.email}`}>
+          {t.form.emailLink}
+        </a>
+      )}
+      {publicConfig.whatsapp && (
+        <a class="text-link" href={whatsappUrl(locale)} target="_blank" rel="noopener noreferrer">
+          {t.form.whatsapp}
+        </a>
+      )}
+    </aside>
+    <ContactForm locale={locale} client:load />
+  </section>
+</StudioLayout>

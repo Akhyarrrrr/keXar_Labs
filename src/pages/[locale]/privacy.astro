@@ -1,0 +1,23 @@
+---
+import StudioLayout from '@/layouts/StudioLayout.astro';
+import { copy } from '@/lib/content';
+import { localePaths } from '@/lib/routes';
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+
+<StudioLayout locale={locale} title={t.privacy} description={t.privacyIntro} path="privacy/">
+  <section class="page-hero">
+    <h1>{t.privacyTitle}</h1>
+    <p>{t.privacyIntro}</p>
+  </section>
+  <section class="section privacy-copy">
+    {t.privacySections.map(([title, desc]) => (
+      <article>
+        <h2>{title}</h2>
+        <p>{desc}</p>
+      </article>
+    ))}
+  </section>
+</StudioLayout>

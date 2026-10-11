@@ -1,0 +1,120 @@
+---
+import type { Locale } from '@/lib/content';
+import { demoLabels, type ConceptId, type DemoContent } from '@/lib/demos';
+import DemoImage from './DemoImage.astro';
+import { ArrowUpRightIcon } from '@phosphor-icons/react/dist/ssr';
+interface Props {
+  locale: Locale;
+  concept: ConceptId;
+  content: DemoContent;
+}
+const { locale, concept, content } = Astro.props;
+const t = demoLabels[locale],
+  base = `/${locale}/demo/${concept}/`;
+---
+
+<section class="legal-hero">
+  <DemoImage image={content.image} priority class="legal-hero-image" />
+  <div class="legal-hero-copy">
+    <h1>{content.hero}</h1>
+    <p>{content.heroNote}</p>
+    <a class="demo-button" href={`${base}practices/`}>
+      {t.explore} <ArrowUpRightIcon size={18} aria-hidden="true" />
+    </a>
+  </div>
+  {concept === 'corporate' && (
+    <span class="legal-hero-foot">
+      {locale === 'id'
+        ? 'Perspektif hukum untuk kebutuhan bisnis.'
+        : 'Legal perspective for business decisions.'}
+    </span>
+  )}
+</section>
+<section class="legal-section legal-statement" id="approach">
+  <h2>{content.statement}</h2>
+  <p>{content.statementNote}</p>
+  <div class="legal-approach">
+    {content.approach.map(([heading, body]) => (
+      <article>
+        <h3>{heading}</h3>
+        <p>{body}</p>
+      </article>
+    ))}
+  </div>
+</section>
+<section class="legal-section legal-practices" id="practices">
+  <div class="legal-section-heading">
+    <div>
+      <h2>{t.practices}</h2>
+    </div>
+    <a class="legal-text-link" href={`${base}practices/`}>
+      {locale === 'id' ? 'Semua bidang praktik' : 'All practice areas'}{' '}
+      <ArrowUpRightIcon size={18} aria-hidden="true" />
+    </a>
+  </div>
+  <div class="legal-practice-list">
+    {content.practices.map((practice) => (
+      <a href={`${base}practices/${practice.slug}/`}>
+        <h3>{practice.title}</h3>
+        <p>{practice.short}</p>
+        <ArrowUpRightIcon size={18} aria-hidden="true" />
+      </a>
+    ))}
+  </div>
+</section>
+{concept === 'private-client' && <DemoImage image="library" class="legal-interlude" />}
+<section class="legal-section legal-people" id="people">
+  <div class="legal-section-heading">
+    <div>
+      <h2>{t.people}</h2>
+    </div>
+    <a class="legal-text-link" href={`${base}people/`}>
+      {locale === 'id' ? 'Kenali profesional' : 'Meet our people'}{' '}
+      <ArrowUpRightIcon size={18} aria-hidden="true" />
+    </a>
+  </div>
+  <div class="legal-people-grid">
+    {content.people.map((person) => (
+      <article>
+        <a href={`${base}people/${person.slug}/`} aria-label={`${t.profile}: ${person.name}`}>
+          <DemoImage image={person.portrait} portrait alt={`${person.name} — ${t.synthetic}`} />
+        </a>
+        <span class="portrait-note">{t.synthetic}</span>
+        <h3>
+          <a href={`${base}people/${person.slug}/`}>{person.name}</a>
+        </h3>
+        <p>{person.role}</p>
+      </article>
+    ))}
+  </div>
+</section>
+<section class="legal-section legal-insights" id="insights">
+  <div class="legal-section-heading">
+    <div>
+      <h2>{t.insights}</h2>
+    </div>
+    <a class="legal-text-link" href={`${base}insights/`}>
+      {locale === 'id' ? 'Semua perspektif' : 'All perspectives'}{' '}
+      <ArrowUpRightIcon size={18} aria-hidden="true" />
+    </a>
+  </div>
+  <div class="legal-article-grid">
+    {content.articles.map((article) => (
+      <article>
+        <a href={`${base}insights/${article.slug}/`}>
+          <DemoImage image={article.image} />
+          <h3>{article.title}</h3>
+          <span class="legal-text-link">
+            {t.learn} <ArrowUpRightIcon size={18} aria-hidden="true" />
+          </span>
+        </a>
+      </article>
+    ))}
+  </div>
+</section>
+<section class="legal-contact-band">
+  <h2>{t.next}</h2>
+  <a href={`${base}contact/`} class="demo-button">
+    {t.conversation} <ArrowUpRightIcon size={18} aria-hidden="true" />
+  </a>
+</section>

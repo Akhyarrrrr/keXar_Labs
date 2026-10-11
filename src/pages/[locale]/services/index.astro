@@ -1,0 +1,20 @@
+---
+import StudioLayout from '@/layouts/StudioLayout.astro';
+import { ServiceRows, ContactBand } from '@/components/ui';
+import { copy } from '@/lib/content';
+import { localePaths } from '@/lib/routes';
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+
+<StudioLayout locale={locale} title={t.nav[0]} description={t.servicesNote} path="services/">
+  <section class="page-hero">
+    <h1>{t.servicesTitle}</h1>
+    <p>{t.servicesNote}</p>
+  </section>
+  <section class="section services-index">
+    <ServiceRows locale={locale} />
+  </section>
+  <ContactBand locale={locale} />
+</StudioLayout>

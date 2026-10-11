@@ -1,0 +1,14 @@
+---
+interface Props {
+  large?: boolean;
+}
+const { large = false } = Astro.props;
+---
+
+<img
+  class:list={['wordmark', { 'wordmark-large': large }]}
+  src="/brand/wordmark.svg"
+  alt="keXar Labs"
+  width="242"
+  height="68"
+/>

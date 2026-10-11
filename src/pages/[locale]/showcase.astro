@@ -1,0 +1,16 @@
+---
+import StudioLayout from '@/layouts/StudioLayout.astro';
+import { Gallery, Compare } from '@/components/gallery';
+import { ContactBand } from '@/components/ui';
+import { copy } from '@/lib/content';
+import { localePaths } from '@/lib/routes';
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+
+<StudioLayout locale={locale} title={t.nav[1]} description={t.galleryNote} path="showcase/">
+  <Gallery locale={locale} client:load />
+  <Compare locale={locale} client:visible={{ rootMargin: '800px' }} />
+  <ContactBand locale={locale} />
+</StudioLayout>

@@ -1,0 +1,40 @@
+---
+import StudioLayout from '@/layouts/StudioLayout.astro';
+import { Process, ContactBand } from '@/components/ui';
+import Wordmark from '@/components/Wordmark.astro';
+import { copy } from '@/lib/content';
+import { localePaths } from '@/lib/routes';
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+
+<StudioLayout locale={locale} title={t.nav[2]} description={t.studioIntro} path="studio/">
+  <section class="page-hero">
+    <h1>{t.studioTitle}</h1>
+    <p>{t.studioIntro}</p>
+  </section>
+  <img
+    class="page-photo"
+    src="/images/library-1600.webp"
+    srcset="/images/library-800.webp 800w, /images/library-1600.webp 1600w"
+    sizes="100vw"
+    width="1664"
+    height="941"
+    alt=""
+    loading="lazy"
+  />
+  <section class="studio-statement section">
+    <Wordmark large />
+    <div>
+      {t.principles.map(([title, desc]) => (
+        <article>
+          <h2>{title}</h2>
+          <p>{desc}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+  <Process locale={locale} />
+  <ContactBand locale={locale} />
+</StudioLayout>
