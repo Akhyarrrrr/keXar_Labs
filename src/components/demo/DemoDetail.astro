@@ -21,16 +21,20 @@ const article = content.articles.find((item) => item.slug === slug);
 {kind === 'practices' && practice && (
   <>
     <section class="legal-page-heading">
-      <a href={`${base}practices/`} class="legal-breadcrumb">
-        {t.practices} / {practice.title}
-      </a>
+      <nav class="legal-breadcrumb" aria-label={locale === 'id' ? 'Jejak navigasi' : 'Breadcrumb'}>
+        <a href={base}>{t.home}</a>
+        <span aria-hidden="true">/</span>
+        <a href={`${base}practices/`}>{t.practices}</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{practice.title}</span>
+      </nav>
       <h1>{practice.title}</h1>
       <p>{practice.intro}</p>
     </section>
     <DemoImage image={content.image} class="legal-detail-photo" />
     <section class="legal-section legal-detail-grid">
-      <aside>
-        <h2>{t.scope}</h2>
+      <aside aria-labelledby="practice-scope-heading">
+        <h2 id="practice-scope-heading">{t.scope}</h2>
         <ul>
           {practice.work.map((item) => (
             <li>{item}</li>
@@ -63,22 +67,28 @@ const article = content.articles.find((item) => item.slug === slug);
 )}
 {kind === 'people' && person && (
   <section class="legal-section legal-profile">
-    <div>
+    <nav class="legal-breadcrumb" aria-label={locale === 'id' ? 'Jejak navigasi' : 'Breadcrumb'}>
+      <a href={base}>{t.home}</a>
+      <span aria-hidden="true">/</span>
+      <a href={`${base}people/`}>{t.people}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{person.name}</span>
+    </nav>
+    <figure class="legal-profile-portrait">
       <DemoImage
         image={person.portrait}
         portrait
         priority
         alt={`${person.name} — ${t.synthetic}`}
       />
-      <p class="portrait-note">{t.synthetic}</p>
-    </div>
-    <div>
-      <a href={`${base}people/`} class="legal-breadcrumb">
-        <ArrowLeftIcon size={18} aria-hidden="true" /> {t.people}
-      </a>
+      <figcaption class="portrait-note">{t.synthetic}</figcaption>
+    </figure>
+    <header class="legal-profile-heading">
       <h1>{person.name}</h1>
       <p class="legal-role">{person.role}</p>
       <p class="legal-profile-intro">{person.intro}</p>
+    </header>
+    <div class="legal-profile-content">
       {person.bio.map(([title, body]) => (
         <article>
           <h2>{title}</h2>
@@ -94,23 +104,34 @@ const article = content.articles.find((item) => item.slug === slug);
       <a class="demo-button" href={`${base}contact/`}>
         {t.conversation} <ArrowUpRightIcon size={18} aria-hidden="true" />
       </a>
+      <a class="legal-text-link legal-profile-return" href={`${base}people/`}>
+        <ArrowLeftIcon size={18} aria-hidden="true" /> {t.people}
+      </a>
     </div>
   </section>
 )}
 {kind === 'insights' && article && (
   <>
     <section class="legal-page-heading legal-article-heading">
-      <a href={`${base}insights/`} class="legal-breadcrumb">
-        <ArrowLeftIcon size={18} aria-hidden="true" /> {t.insights}
-      </a>
+      <nav class="legal-breadcrumb" aria-label={locale === 'id' ? 'Jejak navigasi' : 'Breadcrumb'}>
+        <a href={base}>{t.home}</a>
+        <span aria-hidden="true">/</span>
+        <a href={`${base}insights/`}>{t.insights}</a>
+      </nav>
       <h1>{article.title}</h1>
       <p>{article.intro}</p>
     </section>
     <DemoImage image={article.image} class="legal-detail-photo" priority />
     <article class="legal-article-body">
       <p class="legal-article-note">{t.articleNote}</p>
-      {article.sections.map(([title, body]) => (
-        <section>
+      <nav class="legal-article-index" aria-label={locale === 'id' ? 'Isi artikel' : 'Article contents'}>
+        <span class="legal-eyebrow">{locale === 'id' ? 'Dalam catatan ini' : 'In this note'}</span>
+        {article.sections.map(([title], index) => (
+          <a href={`#article-section-${index + 1}`}>{title}</a>
+        ))}
+      </nav>
+      {article.sections.map(([title, body], index) => (
+        <section id={`article-section-${index + 1}`}>
           <h2>{title}</h2>
           <p>{body}</p>
         </section>
@@ -119,5 +140,13 @@ const article = content.articles.find((item) => item.slug === slug);
         <ArrowLeftIcon size={18} aria-hidden="true" /> {t.insights}
       </a>
     </article>
+    <section class="legal-section legal-related">
+      <h2>{t.insights}</h2>
+      {content.articles.filter((item) => item.slug !== slug).map((item) => (
+        <a href={`${base}insights/${item.slug}/`}>
+          {item.title} <ArrowUpRightIcon size={18} aria-hidden="true" />
+        </a>
+      ))}
+    </section>
   </>
 )}

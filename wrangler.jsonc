@@ -9,8 +9,9 @@
     "run_worker_first": [
       "/",
       "/api/*",
-      "/id/demo/boutique",
-      "/id/demo/boutique/",
+      "/id/*",
+      "/en/services/legal-web",
+      "/en/services/legal-web/",
       "/en/demo/boutique",
       "/en/demo/boutique/",
     ],

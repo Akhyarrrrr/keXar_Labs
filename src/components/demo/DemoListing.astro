@@ -15,9 +15,11 @@ const t = demoLabels[locale],
 ---
 
 <section class="legal-page-heading">
-  <a href={base} class="legal-breadcrumb">
-    {t.home} / {t[kind]}
-  </a>
+  <nav class="legal-breadcrumb" aria-label={locale === 'id' ? 'Jejak navigasi' : 'Breadcrumb'}>
+    <a href={base}>{t.home}</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{t[kind]}</span>
+  </nav>
   <h1>{t[kind]}</h1>
   <p>
     {kind === 'practices'
@@ -36,14 +38,14 @@ const t = demoLabels[locale],
     <div class="legal-practice-index">
       {content.practices.map((practice) => (
         <article>
-          <h2>{practice.title}</h2>
+          <h2><a href={`${base}practices/${practice.slug}/`}>{practice.title}</a></h2>
           <p>{practice.intro}</p>
           <ul>
             {practice.work.map((item) => (
               <li>{item}</li>
             ))}
           </ul>
-          <a class="legal-text-link" href={`${base}practices/${practice.slug}/`}>
+          <a class="legal-text-link" href={`${base}practices/${practice.slug}/`} aria-label={`${t.learn}: ${practice.title}`}>
             {t.learn} <ArrowUpRightIcon size={18} aria-hidden="true" />
           </a>
         </article>
@@ -58,10 +60,10 @@ const t = demoLabels[locale],
             <DemoImage image={person.portrait} portrait alt={`${person.name} — ${t.synthetic}`} />
           </a>
           <span class="portrait-note">{t.synthetic}</span>
-          <h2>{person.name}</h2>
-          <p>{person.role}</p>
+          <h2><a href={`${base}people/${person.slug}/`}>{person.name}</a></h2>
+          <p class="legal-role">{person.role}</p>
           <p>{person.intro}</p>
-          <a class="legal-text-link" href={`${base}people/${person.slug}/`}>
+          <a class="legal-text-link" href={`${base}people/${person.slug}/`} aria-label={`${t.profile}: ${person.name}`}>
             {t.profile} <ArrowUpRightIcon size={18} aria-hidden="true" />
           </a>
         </article>
@@ -77,7 +79,7 @@ const t = demoLabels[locale],
             <h2>{article.title}</h2>
           </a>
           <p>{article.intro}</p>
-          <a class="legal-text-link" href={`${base}insights/${article.slug}/`}>
+          <a class="legal-text-link" href={`${base}insights/${article.slug}/`} aria-label={`${t.learn}: ${article.title}`}>
             {t.learn} <ArrowUpRightIcon size={18} aria-hidden="true" />
           </a>
         </article>

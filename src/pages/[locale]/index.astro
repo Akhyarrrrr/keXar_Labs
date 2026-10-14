@@ -1,12 +1,13 @@
 ---
 import StudioLayout from '@/layouts/StudioLayout.astro';
-import Home from '@/components/Home.astro';
+import Headquarters from '@/components/Headquarters.astro';
 import { copy } from '@/lib/content';
 import { localePaths } from '@/lib/routes';
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props;
+if (locale === 'id') return Astro.redirect('/en/', 308);
 ---
 
-<StudioLayout locale={locale} title={copy[locale].headline} description={copy[locale].heroNote}>
-  <Home locale={locale} />
+<StudioLayout title={copy.en.headline} description={copy.en.heroNote}>
+  <Headquarters />
 </StudioLayout>

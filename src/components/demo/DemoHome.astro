@@ -31,6 +31,7 @@ const t = demoLabels[locale],
   )}
 </section>
 <section class="legal-section legal-statement" id="approach">
+  <span class="legal-eyebrow">{t.approach}</span>
   <h2>{content.statement}</h2>
   <p>{content.statementNote}</p>
   <div class="legal-approach">
@@ -83,7 +84,7 @@ const t = demoLabels[locale],
         <h3>
           <a href={`${base}people/${person.slug}/`}>{person.name}</a>
         </h3>
-        <p>{person.role}</p>
+        <p class="legal-role">{person.role}</p>
       </article>
     ))}
   </div>

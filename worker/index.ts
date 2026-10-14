@@ -1,4 +1,3 @@
-import { preferredLocale } from './locale';
 const MAX_BYTES = 12000;
 const SERVICES = ['legal-web', 'redesign', 'web-app', 'seo', 'server', 'ai'];
 type Brief = {
@@ -163,7 +162,7 @@ export async function contact(request: Request, env: Env): Promise<Response> {
         to: [env.CONTACT_TO_EMAIL],
         reply_to: brief.email,
         subject: `keXar Labs: ${brief.service}`,
-        text: `Name: ${brief.name}\nEmail: ${brief.email}\nFirm: ${brief.firm}\nService: ${brief.service}\nWebsite: ${brief.website || 'Not provided'}\nLanguage: ${brief.locale}\n\n${brief.message}`,
+        text: `Name: ${brief.name}\nEmail: ${brief.email}\nCompany / Organisation: ${brief.firm}\nService: ${brief.service}\nWebsite: ${brief.website || 'Not provided'}\nLanguage: ${brief.locale}\n\n${brief.message}`,
       }),
     });
     if (!email.ok) {
@@ -187,19 +186,20 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === '/api/contact') return contact(request, env);
     if (url.pathname.startsWith('/api/')) return json(404, { error: 'not-found' });
+    if (/^\/(id|en)\/services\/legal-web\/?$/.test(url.pathname)) {
+      return Response.redirect(new URL('/en/services/websites/' + url.search, url).toString(), 308);
+    }
     if (url.pathname === '/') {
-      const locale = preferredLocale(
-        request.headers.get('Cookie'),
-        request.headers.get('Accept-Language'),
-      );
       return new Response(null, {
         status: 302,
         headers: {
-          Location: new URL(`/${locale}/${url.search}`, url).toString(),
-          'Cache-Control': 'private, no-store',
-          Vary: 'Accept-Language, Cookie',
+          Location: new URL(`/en/${url.search}`, url).toString(),
+          'Cache-Control': 'no-store',
         },
       });
+    }
+    if (/^\/id(?:\/|$)/.test(url.pathname) && !/^\/id\/demo(?:\/|$)/.test(url.pathname)) {
+      return Response.redirect(new URL(url.pathname.replace(/^\/id/, '/en') + url.search, url).toString(), 308);
     }
     if (/^\/(id|en)\/demo\/boutique\/?$/.test(url.pathname)) {
       return Response.redirect(

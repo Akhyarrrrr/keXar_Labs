@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRightIcon } from '@phosphor-icons/react';
-import { copy, services, publicConfig, whatsappUrl, type Locale } from '@/lib/content';
-import { useStudioTheme } from './use-theme';
+import { copy, services, publicConfig, whatsappUrl } from '@/lib/content';
 type TurnstileApi = {
   render: (element: HTMLElement, options: Record<string, unknown>) => string;
   reset: (id: string) => void;
@@ -12,9 +11,10 @@ declare global {
     turnstile?: TurnstileApi;
   }
 }
-export function ContactForm({ locale }: { locale: Locale }) {
-  const theme = useStudioTheme();
-  const t = copy[locale].form,
+export function ContactForm() {
+  const [hydrated, setHydrated] = useState(false),
+    [reference, setReference] = useState('');
+  const t = copy.en.form,
     [service, setService] = useState(''),
     [token, setToken] = useState(''),
     [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle'),
@@ -24,9 +24,12 @@ export function ContactForm({ locale }: { locale: Locale }) {
     submission = useRef('');
   const ready = !!publicConfig.turnstile;
   useEffect(() => {
+    setHydrated(true);
+  }, []);
+  useEffect(() => {
     const selected = new URLSearchParams(window.location.search).get('service');
-    if (services[locale].some((s) => s.id === selected)) setService(selected!);
-  }, [locale]);
+    if (services.en.some((s) => s.id === selected)) setService(selected!);
+  }, []);
   useEffect(() => {
     if (!ready || !slot.current) return;
     setToken('');
@@ -36,11 +39,11 @@ export function ContactForm({ locale }: { locale: Locale }) {
       widget.current = window.turnstile.render(slot.current, {
         sitekey: publicConfig.turnstile,
         action: 'contact',
-        language: locale,
-        theme,
+        language: 'en',
+        theme: 'light',
         callback: (value: string) => {
           setToken(value);
-          setError('');
+          setError((current) => (current === t.token || current === t.expired ? '' : current));
         },
         'expired-callback': () => {
           setToken('');
@@ -68,7 +71,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       if (widget.current) window.turnstile?.remove(widget.current);
       widget.current = '';
     };
-  }, [locale, ready, t.expired, t.token, theme]);
+  }, [ready, t.expired, t.token]);
   async function submit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (status === 'loading' || !ready) return;
@@ -94,21 +97,27 @@ export function ContactForm({ locale }: { locale: Locale }) {
           service: fields.get('service'),
           message: fields.get('message'),
           website: fields.get('website'),
-          locale,
+          locale: 'en',
           token,
           submissionId: submission.current,
         }),
       });
-      if (!response.ok) throw new Error('delivery');
+      if (!response.ok) {
+        if (response.status === 503) throw new Error('unconfigured');
+        throw new Error('delivery');
+      }
       const result = await response.json();
       if (result.status !== 'accepted') throw new Error('response');
       setStatus('success');
+      setReference(submission.current);
       form.reset();
       setService('');
       submission.current = '';
-    } catch {
+    } catch (failure) {
       setStatus('error');
-      setError(t.error);
+      setError(
+        failure instanceof Error && failure.message === 'unconfigured' ? t.unavailable : t.error,
+      );
     } finally {
       setToken('');
       if (widget.current) window.turnstile?.reset(widget.current);
@@ -117,6 +126,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
   return (
     <form
       className="contact-form"
+      action="/api/contact"
+      method="post"
       onSubmit={submit}
       onChange={() => {
         submission.current = '';
@@ -169,7 +180,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           disabled={status === 'loading'}
         >
           <option value="">{t.choose}</option>
-          {services[locale].map((s) => (
+          {services.en.map((s) => (
             <option key={s.id} value={s.id}>
               {s.title}
             </option>
@@ -190,9 +201,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
         />
       </label>
       <small id="message-help" className="full form-help">
-        {locale === 'id'
-          ? '20–4.000 karakter. Hindari informasi perkara atau data klien sensitif.'
-          : '20–4,000 characters. Exclude case details and sensitive client data.'}
+        20–4,000 characters. Leave passwords, private documents and sensitive personal data out of
+        your brief.
       </small>
       <label htmlFor="website" className="full">
         {t.website}
@@ -208,15 +218,25 @@ export function ContactForm({ locale }: { locale: Locale }) {
       {ready && <div ref={slot} className="turnstile-slot" />}
       <div className="form-bottom">
         <p>
-          {t.consent} <a href={`/${locale}/privacy/`}>{copy[locale].privacy}</a>
+          {t.consent} <a href="/en/privacy/">{copy.en.privacy}</a>
         </p>
-        <button type="submit" className="button" disabled={!ready || status === 'loading'}>
+        <button
+          type="submit"
+          className="button"
+          disabled={!ready || !hydrated || status === 'loading'}
+        >
           {status === 'loading' ? t.sending : t.send}
-          <ArrowUpRightIcon size={20} />
+          <ArrowUpRightIcon size={20} aria-hidden="true" />
         </button>
       </div>
       <div aria-live="polite" className="full">
-        {status === 'success' && <p className="form-notice">{t.success}</p>}
+        {status === 'success' && (
+          <p className="form-notice">
+            {t.success}
+            <br />
+            <small>Reference: {reference}</small>
+          </p>
+        )}
         {error && (
           <p className="form-notice error" role="alert">
             {error}
@@ -225,7 +245,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
                 <br />
                 <a
                   className="text-link"
-                  href={whatsappUrl(locale)}
+                  href={whatsappUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

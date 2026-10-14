@@ -3,21 +3,30 @@ import StudioLayout from '@/layouts/StudioLayout.astro';
 import { copy } from '@/lib/content';
 import { localePaths } from '@/lib/routes';
 export const getStaticPaths = localePaths;
-const { locale } = Astro.props;
-const t = copy[locale];
+if (Astro.props.locale === 'id') return Astro.redirect('/en/privacy/', 308);
 ---
 
-<StudioLayout locale={locale} title={t.privacy} description={t.privacyIntro} path="privacy/">
-  <section class="page-hero">
-    <h1>{t.privacyTitle}</h1>
-    <p>{t.privacyIntro}</p>
+<StudioLayout
+  title="Privacy"
+  description="How information moves through the keXar Labs website and project brief form."
+  path="privacy/"
+>
+  <section class="hq-page-head">
+    <h1>Privacy, in clear language.</h1><p>
+      This page explains how information moves through the website. Brief delivery is available only
+      after the studio’s contact services are configured and tested.
+    </p>
   </section>
-  <section class="section privacy-copy">
-    {t.privacySections.map(([title, desc]) => (
-      <article>
-        <h2>{title}</h2>
-        <p>{desc}</p>
-      </article>
-    ))}
+  <section class="hq-reading">
+    {
+      copy.en.privacySections.map(([title, description]) => (
+        <article>
+          <>
+            <h2>{title}</h2>
+            <p>{description}</p>
+          </>
+        </article>
+      ))
+    }<a class="hq-link" href="/en/contact/">Return to the project brief</a>
   </section>
 </StudioLayout>

@@ -1,40 +1,71 @@
 ---
 import StudioLayout from '@/layouts/StudioLayout.astro';
-import { Process, ContactBand } from '@/components/ui';
-import Wordmark from '@/components/Wordmark.astro';
-import { copy } from '@/lib/content';
+import HQContactBand from '@/components/HQContactBand.astro';
+import HQArrow from '@/components/HQArrow.astro';
 import { localePaths } from '@/lib/routes';
 export const getStaticPaths = localePaths;
-const { locale } = Astro.props;
-const t = copy[locale];
+if (Astro.props.locale === 'id') return Astro.redirect('/en/studio/', 308);
 ---
 
-<StudioLayout locale={locale} title={t.nav[2]} description={t.studioIntro} path="studio/">
-  <section class="page-hero">
-    <h1>{t.studioTitle}</h1>
-    <p>{t.studioIntro}</p>
-  </section>
-  <img
-    class="page-photo"
-    src="/images/library-1600.webp"
-    srcset="/images/library-800.webp 800w, /images/library-1600.webp 1600w"
-    sizes="100vw"
-    width="1664"
-    height="941"
-    alt=""
-    loading="lazy"
-  />
-  <section class="studio-statement section">
-    <Wordmark large />
-    <div>
-      {t.principles.map(([title, desc]) => (
-        <article>
-          <h2>{title}</h2>
-          <p>{desc}</p>
-        </article>
-      ))}
+<StudioLayout
+  title="The studio"
+  description="keXar Labs connects design and development around your business, users and everyday work."
+  path="studio/"
+>
+  <section class="hq-page-head">
+    <h1>Care in the details. Clarity in the process.</h1><div>
+      <p>
+        keXar Labs is a digital studio working across industries. We connect design and development
+        around the people using your website, the work your team does, and the outcome the project
+        needs to support.
+      </p><div class="hq-actions">
+        <a class="hq-link" href="/en/showcase/">Explore our demonstrations <HQArrow /></a>
+      </div>
     </div>
   </section>
-  <Process locale={locale} />
-  <ContactBand locale={locale} />
+  <figure class="hq-page-image">
+    <img
+      src="/media/headquarters/posters/lobby-desktop.webp"
+      alt="The lobby of the conceptual keXar Labs digital headquarters"
+      width="2560"
+      height="1600"
+    /><figcaption>
+      <span>A connected environment for the studio’s work.</span><span
+        >This is a digital concept, not a physical office.</span>
+    </figcaption>
+  </figure>
+  <section class="hq-section">
+    <div class="hq-section-intro">
+      <h2>The brief gives the work its direction.</h2><p>
+        Good decisions begin with the business context. We agree what to build, who it serves, and
+        what is included before production.
+      </p>
+    </div><article class="hq-capability-row">
+      <h2>Design has a purpose.</h2><p>
+        Information, typography and interaction help people understand your offer and complete the
+        next step. Visual direction is reviewed before the build.
+      </p>
+    </article><article class="hq-capability-row">
+      <h2>Technology follows requirements.</h2><p>
+        The stack follows the features, editing needs, integrations and operational
+        responsibilities. A prototype can resolve uncertainty before a larger implementation.
+      </p>
+    </article><article class="hq-capability-row">
+      <h2>Approval before publication.</h2><p>
+        Content, user flows and deliverables are reviewed together. Access and practical handover
+        are part of the launch conversation.
+      </p>
+    </article>
+  </section>
+  <section class="hq-section hq-example">
+    <h2>A clear route to launch.</h2><div>
+      <p>Brief → Design → Development → Review → Launch.</p><p class="hq-note">
+        The proposal defines deliverables, timing and approval points. Changes to the scope are
+        discussed before additional work begins.
+      </p><div class="hq-actions">
+        <a class="hq-link" href="/en/#process">Explore the project journey <HQArrow /></a>
+      </div>
+    </div>
+  </section>
+  <HQContactBand />
 </StudioLayout>

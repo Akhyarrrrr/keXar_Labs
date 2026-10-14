@@ -1,16 +1,65 @@
 ---
 import StudioLayout from '@/layouts/StudioLayout.astro';
-import { Gallery, Compare } from '@/components/gallery';
-import { ContactBand } from '@/components/ui';
-import { copy } from '@/lib/content';
+import HQContactBand from '@/components/HQContactBand.astro';
+import HQArrow from '@/components/HQArrow.astro';
 import { localePaths } from '@/lib/routes';
+import { conceptIds, demos } from '@/lib/demos';
 export const getStaticPaths = localePaths;
-const { locale } = Astro.props;
-const t = copy[locale];
+if (Astro.props.locale === 'id') return Astro.redirect('/en/showcase/', 308);
+const categories = {
+  corporate: 'Corporate & Commercial',
+  litigation: 'Litigation & Arbitration',
+  'private-client': 'Private Client Practice',
+};
 ---
 
-<StudioLayout locale={locale} title={t.nav[1]} description={t.galleryNote} path="showcase/">
-  <Gallery locale={locale} client:load />
-  <Compare locale={locale} client:visible={{ rootMargin: '800px' }} />
-  <ContactBand locale={locale} />
+<StudioLayout
+  title="Demonstration gallery"
+  description="Explore three working website concepts by keXar Labs. Fictional identities, real pages and interactive enquiry flows."
+  path="showcase/"
+>
+  <section class="hq-page-head">
+    <h1>See what we can build.</h1><div>
+      <p>
+        Three working website concepts show different ways to organise information, present
+        expertise and invite an enquiry. Explore the pages and interactions yourself.
+      </p><p class="hq-fiction">
+        Demonstration concepts. All identities and content are fictional.
+      </p>
+    </div>
+  </section>
+  {
+    conceptIds.map((concept) => (
+      <article class="hq-showcase-item">
+        <>
+          <img
+            src={`/media/headquarters/screens/${concept}.webp`}
+            alt={`${demos[concept].en.name} demonstration homepage`}
+            width="1440"
+            height="1000"
+            loading="lazy"
+          />
+          <div>
+            <>
+              <h2>{categories[concept]}</h2>
+              <p>{demos[concept].en.heroNote}</p>
+              <small>{demos[concept].en.name} — a fictional practice</small>
+              <div class="hq-actions">
+                <a class="hq-button" href={`/en/demo/${concept}/`}>
+                  Open interactive demo <HQArrow />
+                </a>
+              </div>
+            </>
+          </div>
+        </>
+      </article>
+    ))
+  }
+  <section class="hq-section hq-example">
+    <h2>Different identities. The same care in the journey.</h2><p>
+      These concepts demonstrate page structure, responsive interfaces and contact flows. Your
+      project starts with your business, content and requirements.
+    </p>
+  </section>
+  <HQContactBand />
 </StudioLayout>

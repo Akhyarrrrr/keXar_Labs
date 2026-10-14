@@ -1,13 +1,9 @@
-import { locales, publicConfig } from '@/lib/content';
+import { publicConfig } from '@/lib/content';
 import { marketingPaths } from '@/lib/routes';
 export const GET = () => {
   const urls = publicConfig.siteUrl
-    ? locales
-        .flatMap((locale) =>
-          marketingPaths.map(
-            (path) => `<url><loc>${publicConfig.siteUrl}/${locale}/${path}</loc></url>`,
-          ),
-        )
+    ? marketingPaths
+        .map((path) => `<url><loc>${publicConfig.siteUrl}/en/${path}</loc></url>`)
         .join('')
     : '';
   return new Response(

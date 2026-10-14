@@ -2,9 +2,10 @@
 import type { Locale } from '@/lib/content';
 import { demoLabels, type ConceptId, type DemoContent } from '@/lib/demos';
 import { pageMeta } from '@/lib/seo';
-import { ArrowLeftIcon, ArrowUpRightIcon, ListIcon } from '@phosphor-icons/react/dist/ssr';
+import { ArrowLeftIcon, ArrowUpRightIcon, ListIcon, XIcon } from '@phosphor-icons/react/dist/ssr';
 import '@/styles/global.css';
 import '@/styles/demo.css';
+import '@/styles/demo-polish.css';
 interface Props {
   locale: Locale;
   concept: ConceptId;
@@ -87,18 +88,22 @@ const font =
           {other.toUpperCase()}
         </a>
         <details class="legal-mobile-menu">
-          <summary>
-            Menu <ListIcon size={18} aria-hidden="true" />
+          <summary aria-controls="demo-mobile-navigation">
+            <span>Menu</span>
+            <ListIcon className="legal-menu-open" size={20} aria-hidden="true" />
+            <XIcon className="legal-menu-close" size={20} aria-hidden="true" />
           </summary>
-          <nav aria-label={locale === 'id' ? 'Navigasi mobile' : 'Mobile navigation'}>
+          <nav id="demo-mobile-navigation" aria-label={locale === 'id' ? 'Navigasi mobile' : 'Mobile navigation'}>
+            <a href={base} aria-current={!path ? 'page' : undefined}>{t.home}</a>
             {(['practices', 'people', 'insights', 'contact'] as const).map((key) => (
-              <a href={`${base}${key}/`}>{t[key]}</a>
+              <a href={`${base}${key}/`} aria-current={path.startsWith(key) ? 'page' : undefined}>{t[key]}</a>
             ))}
+            <p class="legal-menu-note">{t.fiction}</p>
           </nav>
         </details>
       </div>
     </header>
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <footer class="legal-footer">
@@ -143,13 +148,41 @@ const font =
           document.cookie = `kexar-language=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
         });
       }
-      document.addEventListener('keydown', (event) => {
-        const menu = document.querySelector<HTMLDetailsElement>('.legal-mobile-menu');
-        if (event.key === 'Escape' && menu?.open) {
+      const menu = document.querySelector<HTMLDetailsElement>('.legal-mobile-menu');
+      const summary = menu?.querySelector('summary');
+      if (menu && summary) {
+        const closeMenu = (restoreFocus = false) => {
           menu.open = false;
-          menu.querySelector('summary')?.focus();
-        }
-      });
+          if (restoreFocus) summary.focus();
+        };
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && menu.open) {
+            event.preventDefault();
+            closeMenu(true);
+          }
+        });
+        document.addEventListener('click', (event) => {
+          if (menu.open && event.target instanceof Node && !menu.contains(event.target)) {
+            closeMenu();
+          }
+        });
+        menu.addEventListener('focusout', () => {
+          requestAnimationFrame(() => {
+            if (menu.open && !menu.contains(document.activeElement)) closeMenu();
+          });
+        });
+        menu.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => closeMenu());
+        });
+        const desktop = matchMedia('(min-width: 1100px)');
+        desktop.addEventListener('change', (event) => {
+          if (event.matches && menu.open) {
+            const focusInside = menu.contains(document.activeElement);
+            closeMenu();
+            if (focusInside) document.querySelector<HTMLAnchorElement>('.legal-nav a')?.focus();
+          }
+        });
+      }
     </script>
   </body>
 </html>

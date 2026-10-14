@@ -2,113 +2,116 @@ import type { Service } from './types';
 export const enServices: Service[] = [
   {
     id: 'legal-web',
-    title: 'Law firm websites',
-    short: 'A clear home for your firm’s expertise.',
+    title: 'Websites & Digital Experiences',
+    short: 'Give people a clear reason to choose your business.',
     intro:
-      'A website that introduces your firm, practice areas, and a way to start a conversation. Structure and design follow your identity and requirements.',
+      'A business website, a distinctive brand experience, or a focused digital launch. We bring structure, content and development together around what your visitors need to understand and do.',
     needs: [
-      'A first website for a firm or independent practice.',
-      'Practice areas, partner profiles, and publications.',
-      'Indonesian and English content for different audiences.',
+      'Introduce a business, service or new offer.',
+      'Help visitors find the right information and make an enquiry.',
+      'Create an experience that carries your visual identity across devices.',
     ],
     deliverables: [
-      'Agreed page structure and visual direction.',
-      'A responsive website with contact flows and SEO foundations.',
-      'Content review, deployment, and usage guidance.',
+      'Agreed information architecture and visual direction.',
+      'Responsive pages, navigation and contact flows within scope.',
+      'Accessible content, technical SEO foundations and launch guidance.',
     ],
     example:
-      'A company profile with practice areas, professional profiles, articles, and enquiry options.',
-  },
-  {
-    id: 'redesign',
-    title: 'Website redesign',
-    short: 'Reconsider the impression and the journey.',
-    intro:
-      'A website can evolve while keeping the information that matters. We review visitor journeys and technical foundations before redesigning.',
-    needs: [
-      'An older layout that is difficult to use on mobile.',
-      'Services and profiles that are hard to find.',
-      'Changes in identity, content, or business direction.',
-    ],
-    deliverables: [
-      'Structure review and improvement priorities.',
-      'A prototype and new interface implementation.',
-      'URL mapping and redirects where required.',
-    ],
-    example:
-      'Updated navigation and practice pages, with a considered migration of existing content.',
+      'A service business website with a clear offer, useful service pages, approved work examples and a project enquiry flow.',
   },
   {
     id: 'web-app',
-    title: 'Web applications',
-    short: 'Make everyday workflows easier.',
+    title: 'Web Applications',
+    short: 'Build around the work your team needs to complete.',
     intro:
-      'From internal portals to service platforms, we design applications around their users and the work they need to complete.',
+      'Portals, dashboards and service platforms shaped around users, roles and workflows. We define the important tasks first, then build the interfaces, features and integrations that support them.',
     needs: [
-      'Document portals or internal dashboards.',
-      'Spreadsheet processes becoming difficult to manage.',
-      'Integrations with existing organisational services.',
+      'Replace a spreadsheet process that has become difficult to manage.',
+      'Give customers or staff a portal for requests, documents or progress.',
+      'Connect existing tools with clear access and operational requirements.',
     ],
     deliverables: [
-      'User, workflow, and access requirements.',
-      'Interfaces and application features within scope.',
-      'Workflow testing and operational guidance.',
+      'User journeys, workflow definitions and access requirements.',
+      'Application features and integrations within an agreed scope.',
+      'Workflow checks, deployment documentation and practical handover.',
     ],
-    example: 'A request portal with authentication, progress tracking, and role-based access.',
-  },
-  {
-    id: 'seo',
-    title: 'SEO & performance',
-    short: 'Easier to find. Comfortable to use.',
-    intro:
-      'Information structure and website performance help people find and read your services. Improvements follow the website’s current state and content goals.',
-    needs: [
-      'Inconsistent page structure or metadata.',
-      'Slow pages or heavy assets.',
-      'Content planning around prospective clients’ needs.',
-    ],
-    deliverables: [
-      'Technical audit and priorities.',
-      'Metadata, structure, and asset improvements as needed.',
-      'Review results and further recommendations.',
-    ],
-    example: 'Practice page and mobile speed optimisation. Search rankings are not guaranteed.',
-  },
-  {
-    id: 'server',
-    title: 'Server & deployment',
-    short: 'Foundations that support your website.',
-    intro:
-      'Hosting and deployment follow workload, integrations, and operational needs. We help prepare the path from code to a usable website.',
-    needs: [
-      'Domain, DNS, HTTPS, and hosting setup.',
-      'Application deployment or environment migration.',
-      'Backup and monitoring requirements.',
-    ],
-    deliverables: [
-      'Environment configuration suited to the application.',
-      'Deployment process and access documentation.',
-      'Agreed backup and operational checks.',
-    ],
-    example: 'A static website on Cloudflare, or an application server selected for the project.',
+    example:
+      'A request portal with authentication, role-based access, status tracking and notifications, defined around the organisation’s process.',
   },
   {
     id: 'ai',
-    title: 'AI & automation',
-    short: 'Considered help for repetitive work.',
+    title: 'AI & Automation',
+    short: 'Make a defined workflow easier to run.',
     intro:
-      'We start with a defined workflow and assess where AI or automation can help. Data boundaries and human review are planned from the outset.',
+      'Practical assistance for information retrieval, drafting and repetitive work. We assess the workflow, its data boundaries and the decisions that need human review before choosing an integration.',
     needs: [
-      'Draft preparation and internal information retrieval.',
-      'Moving data between services.',
-      'Repetitive processes that require review.',
+      'Find information in an approved internal knowledge base.',
+      'Prepare drafts or move routine data between services.',
+      'Reduce repeated manual steps while retaining review and control.',
     ],
     deliverables: [
-      'Workflow and data boundary mapping.',
-      'An integration prototype to evaluate.',
-      'Access controls, output review, and usage guidance.',
+      'A workflow map, data boundaries and success criteria.',
+      'A scoped prototype or integration to evaluate with real tasks.',
+      'Access rules, review steps, failure handling and usage guidance.',
     ],
     example:
-      'An internal document search assistant with references and human review; it does not replace legal judgement.',
+      'An internal search assistant that returns references to approved documents and leaves decisions with the person reviewing the result.',
+  },
+  {
+    id: 'redesign',
+    title: 'Website Redesign',
+    short: 'Make the next version serve the business better.',
+    intro:
+      'We review what your current website does well, where visitors struggle, and what your business now needs. The rebuild follows an agreed plan for content, navigation, identity and migration.',
+    needs: [
+      'An older website is difficult to read or use on mobile.',
+      'Services, enquiries or important content are hard to find.',
+      'The business has changed and the website needs to catch up.',
+    ],
+    deliverables: [
+      'A review of existing structure and improvement priorities.',
+      'An approved prototype and responsive implementation.',
+      'Content migration and URL redirects where agreed.',
+    ],
+    example:
+      'A new service structure and enquiry flow, with useful existing content retained and old page addresses mapped to their replacements.',
+  },
+  {
+    id: 'seo',
+    title: 'SEO & Performance',
+    short: 'Help people find, load and read your website.',
+    intro:
+      'Technical improvements to page structure, metadata and loading performance. We examine the current website and content goals, then prioritise changes with a clear reason behind each one.',
+    needs: [
+      'Inconsistent headings, metadata or indexable page structure.',
+      'Heavy images or pages that load slowly on mobile.',
+      'Content that needs a clearer connection to your services and audience.',
+    ],
+    deliverables: [
+      'A technical review and prioritised recommendations.',
+      'Agreed improvements to structure, metadata and assets.',
+      'Recorded checks and guidance for further content work.',
+    ],
+    example:
+      'Service-page metadata, clearer internal links and lighter media. Search rankings and commercial results depend on factors beyond a technical update.',
+  },
+  {
+    id: 'server',
+    title: 'Server & Deployment',
+    short: 'Prepare a clear path from build to operation.',
+    intro:
+      'Hosting and deployment selected around workload, integrations and ownership. We prepare the environment and document how the website or application is released and accessed.',
+    needs: [
+      'Domain, DNS, HTTPS and hosting configuration.',
+      'An application launch or migration to a new environment.',
+      'Agreed backup, monitoring and operational responsibilities.',
+    ],
+    deliverables: [
+      'Environment configuration for the agreed workload.',
+      'A documented deployment process and access handover.',
+      'Backup and operational checks included in the scope.',
+    ],
+    example:
+      'A static business website on a managed platform, or an application environment selected after its requirements have been reviewed.',
   },
 ];

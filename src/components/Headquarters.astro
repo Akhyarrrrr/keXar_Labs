@@ -1,0 +1,257 @@
+---
+import HQPoster from './HQPoster.astro';
+import HQArrow from './HQArrow.astro';
+import { ContactForm } from './contact-form';
+import { services, copy, publicConfig, whatsappUrl } from '@/lib/content';
+import { servicePath } from '@/lib/routes';
+const pillars = services.en.slice(0, 3);
+const supporting = services.en.slice(3);
+const demos = [
+  [
+    'corporate',
+    'Corporate & Commercial',
+    'A structured business presence with services, people and insights.',
+  ],
+  [
+    'litigation',
+    'Litigation & Arbitration',
+    'An editorial approach to presenting expertise and complex information.',
+  ],
+  [
+    'private-client',
+    'Private Client Practice',
+    'A quieter identity with a focused route to an enquiry.',
+  ],
+];
+---
+
+<div class="hq-journey" data-headquarters>
+  <div class="hq-stage" aria-hidden="true" data-chapter="arrival" data-poster="arrival">
+    <HQPoster chapter="arrival" eager opening class="hq-stage-poster" /><canvas></canvas>
+  </div>
+  <section
+    tabindex="-1"
+    aria-labelledby="arrival-title"
+    id="arrival"
+    class="hq-room hq-arrival"
+    data-room="arrival"
+  >
+    <HQPoster chapter="arrival" eager opening /><div class="hq-arrival-content">
+      <h1 id="arrival-title">
+        <span>Websites and systems</span>{' '}
+        <span>built around your business.</span>
+      </h1><p>
+        We design and build websites, web applications, and practical automation around your goals,
+        your users, and the way your team works.
+      </p><div class="hq-actions">
+        <a class="hq-button" href="/en/contact/">Discuss your project</a><a
+          class="hq-link"
+          href="#showcase">View interactive demos</a>
+      </div>
+    </div>
+  </section>
+  <div class="hq-lobby-preview" aria-hidden="true">
+    <HQPoster chapter="lobby" opening /><div>
+      <h2><span>Design and development</span>{' '}<span>for how your business works.</span></h2>
+    </div>
+  </div>
+  <div class="hq-transition" data-transition="0" aria-hidden="true"></div>
+  <section
+    tabindex="-1"
+    aria-labelledby="lobby-title"
+    id="lobby"
+    class="hq-room hq-lobby"
+    data-room="lobby"
+  >
+    <HQPoster chapter="lobby" /><div class="hq-room-content">
+      <h2 id="lobby-title">Design and development for how your business works.</h2><p>
+        Your website helps people understand what you do. Your systems help your team deliver it. We
+        bring both into a project with clear requirements and agreed deliverables.
+      </p><a class="hq-link" href="/en/studio/">Meet the studio <HQArrow /></a>
+    </div>
+  </section>
+  <div class="hq-transition" data-transition="1" aria-hidden="true"></div>
+  <section
+    tabindex="-1"
+    aria-labelledby="capabilities-title"
+    id="capabilities"
+    class="hq-room hq-room-right hq-room-wide"
+    data-room="capabilities"
+  >
+    <HQPoster chapter="capabilities" /><div class="hq-room-content">
+      <h2 id="capabilities-title">Choose what your business needs next.</h2><div
+        class="hq-service-list"
+      >
+        {
+          pillars.map((service) => (
+            <article>
+              <>
+                <h3>
+                  <a href={`/en/services/${servicePath(service.id)}/`}>
+                    {service.title}
+                    <HQArrow />
+                  </a>
+                </h3>
+                <p>{service.intro}</p>
+              </>
+            </article>
+          ))
+        }
+      </div><div class="hq-supporting">
+        {
+          supporting.map((service) => (
+            <a href={`/en/services/${servicePath(service.id)}/`}>{service.title}</a>
+          ))
+        }
+      </div><a href="/en/services/" class="hq-link">Explore all services <HQArrow /></a>
+    </div>
+  </section>
+  <div class="hq-transition" data-transition="2" aria-hidden="true"></div>
+  <section
+    tabindex="-1"
+    aria-labelledby="process-title"
+    id="process"
+    class="hq-room hq-room-wide"
+    data-room="process"
+  >
+    <HQPoster chapter="process" /><div class="hq-room-content">
+      <h2 id="process-title">Agree on the work before it begins.</h2><p>
+        Scope, deliverables and approval points are agreed before production. A proposal follows
+        your project’s requirements.
+      </p><ol class="hq-steps">
+        <li>
+          <div>
+            <strong>Brief</strong><p>
+              Understand the business, users, materials and the outcome the project needs to
+              support.
+            </p>
+          </div>
+        </li><li>
+          <div>
+            <strong>Design</strong><p>
+              Approve the information structure, visual direction and working prototype.
+            </p>
+          </div>
+        </li><li>
+          <div>
+            <strong>Development</strong><p>
+              Build the pages, features and integrations within the agreed scope.
+            </p>
+          </div>
+        </li><li>
+          <div>
+            <strong>Review</strong><p>
+              Check content, devices, accessibility and important user flows together.
+            </p>
+          </div>
+        </li><li>
+          <div>
+            <strong>Launch</strong><p>
+              Approve publication, prepare deployment and hand over access and usage guidance.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+  <div class="hq-transition" data-transition="3" aria-hidden="true"></div>
+  <section
+    tabindex="-1"
+    aria-labelledby="showcase-title"
+    id="showcase"
+    class="hq-room hq-room-right"
+    data-room="showcase"
+  >
+    <HQPoster chapter="showcase" /><div class="hq-room-content">
+      <h2 id="showcase-title">See what we can build.</h2><p>
+        Three working website concepts show different ways to structure information, present
+        expertise and invite an enquiry.
+      </p><div class="hq-demo-links">
+        {
+          demos.map(([slug, title, description]) => (
+            <a href={`/en/demo/${slug}/`}>
+              <>
+                <span>
+                  {title}
+                  <small>{description}</small>
+                  <small>Open interactive demo</small>
+                </span>
+                <HQArrow />
+              </>
+            </a>
+          ))
+        }
+      </div><p class="hq-fiction">
+        Demonstration concepts. All identities and content are fictional.
+      </p><a href="/en/showcase/" class="hq-link">View the demonstration gallery <HQArrow /></a>
+    </div>
+  </section>
+  <div class="hq-transition" data-transition="4" aria-hidden="true"></div>
+  <section
+    tabindex="-1"
+    aria-labelledby="delivery-title"
+    id="delivery"
+    class="hq-room"
+    data-room="delivery"
+  >
+    <HQPoster chapter="delivery" /><div class="hq-room-content">
+      <h2 id="delivery-title">Know what you are getting.</h2><p>
+        The scope describes what will be built, reviewed and handed over. Hosting, editing,
+        integrations and ongoing support are discussed around how the system will be used.
+      </p><ul class="hq-deliverables">
+        <li>Agreed structure and visual direction</li><li>
+          Implemented pages, features and integrations
+        </li><li>Device, accessibility and workflow checks</li><li>
+          Deployment and access documentation
+        </li><li>Practical usage guidance</li>
+      </ul><p class="hq-note">
+        Ongoing maintenance, content work and external service fees are included only when agreed in
+        the proposal.
+      </p>
+    </div>
+  </section>
+  <div class="hq-transition" data-transition="5" aria-hidden="true"></div>
+  <section
+    tabindex="-1"
+    aria-labelledby="conversation-title"
+    id="conversation"
+    class="hq-room hq-room-right hq-meeting"
+    data-room="conversation"
+  >
+    <HQPoster chapter="conversation" /><div class="hq-room-content">
+      <h2 id="conversation-title">Tell us what you want to build.</h2><p>
+        Share what your business does, what you need, and what you would like to improve. We can use
+        that brief to discuss the next step.
+      </p><div class="hq-form-wrap">
+        <ContactForm client:visible={{ rootMargin: '250px' }} />
+      </div><noscript
+        ><p class="hq-nojs">
+          The brief form requires JavaScript for security verification. {
+            publicConfig.email ? (
+              <a href={`mailto:${publicConfig.email}`}>Send your brief to the studio by email.</a>
+            ) : (
+              'Brief delivery will be available after the studio inbox is configured.'
+            )
+          }
+        </p></noscript
+      >{
+        publicConfig.email && (
+          <a class="hq-link" href={`mailto:${publicConfig.email}`}>
+            {copy.en.form.emailLink}
+            <HQArrow />
+          </a>
+        )
+      }{
+        publicConfig.whatsapp && (
+          <a class="hq-link" href={whatsappUrl()} target="_blank" rel="noopener noreferrer">
+            Continue on WhatsApp <HQArrow />
+          </a>
+        )
+      }
+    </div>
+  </section>
+</div>
+<script>
+  import { initHeadquarters } from '@/scripts/headquarters';
+  initHeadquarters();
+</script>

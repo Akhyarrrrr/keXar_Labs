@@ -1,13 +1,23 @@
 ---
 import StudioLayout from '@/layouts/StudioLayout.astro';
+import HQArrow from '@/components/HQArrow.astro';
 ---
 
-<StudioLayout locale="id" title="Halaman tidak ditemukan" description="Kembali ke keXar Labs.">
-  <section class="page-hero">
-    <h1>Halaman ini belum ada.</h1>
-    <p>Kembali ke studio untuk menemukan layanan dan konsep website.</p>
-    <a href="/id/" class="button">
-      Kembali ke keXar
-    </a>
+<StudioLayout
+  title="Page not found"
+  description="Return to keXar Labs to explore services and working demonstration concepts."
+  path="404/"
+  noindex
+>
+  <section class="hq-page-head hq-notfound">
+    <div><strong aria-hidden="true">404</strong><h1>This page could not be found.</h1></div><div>
+      <p>
+        The address may have changed. Explore the studio’s services or return to the headquarters.
+      </p><div class="hq-actions">
+        <a href="/en/" class="hq-button">Return to keXar Labs <HQArrow /></a><a
+          href="/en/services/"
+          class="hq-link">Explore services <HQArrow /></a>
+      </div>
+    </div>
   </section>
 </StudioLayout>
