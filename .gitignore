@@ -30,7 +30,6 @@ coverage/
 playwright-report/
 test-results/
 .qa/
-production/headquarters/*.blend[0-9]
 
 # Editor and operating system files
 .idea/

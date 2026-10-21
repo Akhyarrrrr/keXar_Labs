@@ -1,0 +1,57 @@
+---
+import { landingCopy } from '@/lib/landing-copy';
+import { publicConfig, whatsappUrl } from '@/lib/config';
+const steps = [
+  ['Define', 'Your goals, the people using it, and the work it needs to do. We agree on scope and deliverables before production.'],
+  ['Design & build', 'From content and interface design to the application behind it. You see the work as it takes shape.'],
+  ['Launch & hand over', 'Review the details, prepare deployment, and put the site in your hands. Hosting and ongoing support are agreed in your proposal.'],
+];
+---
+<script is:inline>
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('kx-pending');
+    setTimeout(() => document.documentElement.classList.remove('kx-pending'), 30000);
+  }
+</script>
+<div class="kx-landing" data-landing data-renderer="fallback">
+  <div class="kx-loader" data-loader hidden role="dialog" aria-modal="true" aria-label="Loading keXar Labs" tabindex="-1">
+    <div class="kx-loader-brand">keXar <span>Labs</span></div>
+    <div class="kx-loader-window" aria-hidden="true"><span data-load-line></span></div>
+    <div class="kx-loader-bottom"><p data-load-status role="status">Loading the experience.</p><span data-load-percent>0%</span></div>
+    <div class="kx-load-actions" data-load-actions hidden><button type="button" data-retry>Try again</button><button type="button" data-skip>Continue to page</button></div>
+  </div>
+  <div class="kx-journey" data-journey>
+    <div class="kx-stage">
+      <div class="kx-visual" data-visual>
+        <div class="kx-scene-photo" data-scene-image aria-hidden="true"></div>
+        <div class="kx-photo-shade"></div>
+        <div class="kx-window-bar" data-preview aria-hidden="true"><span>keXar Labs</span><span>Websites & systems</span><i></i></div>
+        <div class="kx-window-copy" data-preview aria-hidden="true"><p>{landingCopy.title.map(line=><span>{line}</span>)}</p><span>{landingCopy.description}</span></div>
+      </div>
+      <section class="kx-hero" data-hero aria-labelledby="kx-title">
+        <h1 id="kx-title">{landingCopy.title.map((line,i)=><span class="kx-title-mask"><span class="kx-title-line">{line}</span>{i<landingCopy.title.length-1 && ' '}</span>)}</h1>
+        <div class="kx-hero-bottom"><p>{landingCopy.description}</p><a class="kx-button" href="#brief">Let’s build yours <span aria-hidden="true">↗</span></a></div>
+        <a class="kx-scroll" href="#approach">Scroll to explore <span aria-hidden="true">↓</span></a>
+      </section>
+      <section class="kx-horizon" data-horizon aria-labelledby="kx-horizon-title">
+        <p class="kx-section-label">What we build</p>
+        <h2 id="kx-horizon-title">A website is<br />only the beginning.</h2>
+        <p>Connect the way your business looks with the way it works.</p>
+        <span class="kx-horizon-note">Websites / Applications / Automation</span>
+      </section>
+      <div class="kx-journey-line" aria-hidden="true"><span data-progress></span></div>
+    </div>
+  </div>
+  <section id="approach" class="kx-approach" aria-labelledby="approach-title">
+    <div class="kx-approach-heading"><p class="kx-section-label">From brief to launch</p><h2 id="approach-title">Know what’s next.<br />At every step.</h2></div>
+    <div class="kx-steps">{steps.map(([title,description])=><article><h3>{title}</h3><p>{description}</p></article>)}</div>
+  </section>
+  <section id="brief" class="kx-brief" aria-labelledby="brief-title">
+    <div class="kx-brief-heading"><p class="kx-section-label">Start a project</p><h2 id="brief-title">What are<br />you building?</h2><p>Tell us about your business, what you need, and when you need it.</p>{publicConfig.email && <a class="kx-text-link" href={`mailto:${publicConfig.email}`}>{publicConfig.email} ↗</a>}{publicConfig.whatsapp && <a class="kx-text-link" href={whatsappUrl()} target="_blank" rel="noopener noreferrer">Talk on WhatsApp ↗</a>}</div>
+
+  </section>
+</div>
+<script>
+  import { initLanding } from '@/scripts/landing';
+  initLanding();
+</script>

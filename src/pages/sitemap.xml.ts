@@ -1,9 +1,9 @@
-import { publicConfig } from '@/lib/content';
-import { marketingPaths } from '@/lib/routes';
+import { publicConfig } from '@/lib/config';
+const marketingPaths = ['', 'privacy/'];
 export const GET = () => {
   const urls = publicConfig.siteUrl
     ? marketingPaths
-        .map((path) => `<url><loc>${publicConfig.siteUrl}/en/${path}</loc></url>`)
+        .map((path) => `<url><loc>${publicConfig.siteUrl}/${path}</loc></url>`)
         .join('')
     : '';
   return new Response(
