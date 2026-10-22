@@ -1,8 +1,12 @@
 # keXar Labs
 
-Catatan pribadi. Landing berada di `/`.
+Landing English di `/`. Astro + GSAP, aset lokal.
 
-- Lokal: `npm run dev`
-- Build: `npm run build`; preview: `npm run preview`
-- Konfigurasi kontak langsung: `.env.example`
-- Foto hero, logo, favicon, dan backend formulir belum tersedia. Gerak hero tetap dipertahankan.
+- `npm run dev` — lokal
+- `npm run build` — hasil statis di `dist/`
+- `npm run preview` — cek hasil build
+- `npm run typecheck` — cek Astro
+
+Form masih UI, pengiriman dinonaktifkan. Tiga slot karya belum berisi proyek.
+Vercel: konfigurasi tersedia; set `PUBLIC_SITE_URL` ke domain final sebelum build.
+Sumber foto: `public/images/credits.txt`; lisensi font: `public/fonts/mona-sans-OFL.txt`.

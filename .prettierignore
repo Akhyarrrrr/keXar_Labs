@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.local/
+.qa/
+.vercel/
+package-lock.json
+public/

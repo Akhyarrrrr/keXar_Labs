@@ -1,6 +1,18 @@
 ---
-import StudioLayout from '@/layouts/StudioLayout.astro';
+import Arrow from "@/components/Arrow.astro";
+import StudioLayout from "@/layouts/StudioLayout.astro";
 ---
-<StudioLayout title="Page not found" description="Return to keXar Labs." noindex>
-<section class="kx-reading"><h1>Page not found.</h1><p>The address may have changed.</p><a href="/">Return to keXar Labs ↗</a></section>
+
+<StudioLayout
+  title="Page not found"
+  description="Return to keXar Labs."
+  noindex
+>
+  <section class="kx-reading">
+    <h1>Page not found.</h1>
+    <p>The address may have changed.</p>
+    <a href="/">
+      Return to keXar Labs <Arrow />
+    </a>
+  </section>
 </StudioLayout>

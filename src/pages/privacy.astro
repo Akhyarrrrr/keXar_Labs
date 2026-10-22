@@ -1,6 +1,27 @@
 ---
-import StudioLayout from '@/layouts/StudioLayout.astro';
+import Arrow from "@/components/Arrow.astro";
+import StudioLayout from "@/layouts/StudioLayout.astro";
 ---
-<StudioLayout title="Privacy" description="Privacy information for the keXar Labs website." path="privacy/">
-<section class="kx-reading"><h1>Privacy.</h1><p>This website does not use analytics, marketing cookies, or an online enquiry form.</p><p>If you contact us through a published email or WhatsApp link, your message is used to respond to your enquiry. Those services process messages under their own policies.</p><a href="/">Return to keXar Labs ↗</a></section>
+
+<StudioLayout
+  title="Privacy"
+  description="Privacy information for the keXar Labs website."
+  path="privacy/"
+>
+  <section class="kx-reading">
+    <h1>Privacy.</h1>
+    <p>This website does not use analytics or marketing cookies.</p>
+    <p>
+      The project brief is a design preview. Its fields are not sent to keXar
+      Labs, and this website does not save their contents. Your browser may
+      offer its own autofill features.
+    </p>
+    <p>
+      The hosting provider may process technical request information to deliver
+      and protect the website.
+    </p>
+    <a href="/">
+      Return to keXar Labs <Arrow />
+    </a>
+  </section>
 </StudioLayout>

@@ -1,57 +1,665 @@
 ---
-import { landingCopy } from '@/lib/landing-copy';
-import { publicConfig, whatsappUrl } from '@/lib/config';
-const steps = [
-  ['Define', 'Your goals, the people using it, and the work it needs to do. We agree on scope and deliverables before production.'],
-  ['Design & build', 'From content and interface design to the application behind it. You see the work as it takes shape.'],
-  ['Launch & hand over', 'Review the details, prepare deployment, and put the site in your hands. Hosting and ongoing support are agreed in your proposal.'],
+import Arrow from "./Arrow.astro";
+const workSlots = [
+  { kind: "Website", title: "Website & digital experience", layout: "desktop" },
+  { kind: "Application", title: "Web application", layout: "mobile" },
+  { kind: "Automation", title: "Connected workflow", layout: "flow" },
 ];
 ---
-<script is:inline>
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.documentElement.classList.add('kx-pending');
-    setTimeout(() => document.documentElement.classList.remove('kx-pending'), 30000);
-  }
-</script>
-<div class="kx-landing" data-landing data-renderer="fallback">
-  <div class="kx-loader" data-loader hidden role="dialog" aria-modal="true" aria-label="Loading keXar Labs" tabindex="-1">
-    <div class="kx-loader-brand">keXar <span>Labs</span></div>
-    <div class="kx-loader-window" aria-hidden="true"><span data-load-line></span></div>
-    <div class="kx-loader-bottom"><p data-load-status role="status">Loading the experience.</p><span data-load-percent>0%</span></div>
-    <div class="kx-load-actions" data-load-actions hidden><button type="button" data-retry>Try again</button><button type="button" data-skip>Continue to page</button></div>
+
+<div class="preloader" aria-label="Preparing keXar Labs" role="status">
+  <div class="loader-top">
+    <span>keXar Labs</span>
+    <span>Websites, applications & automation</span>
   </div>
-  <div class="kx-journey" data-journey>
-    <div class="kx-stage">
-      <div class="kx-visual" data-visual>
-        <div class="kx-scene-photo" data-scene-image aria-hidden="true"></div>
-        <div class="kx-photo-shade"></div>
-        <div class="kx-window-bar" data-preview aria-hidden="true"><span>keXar Labs</span><span>Websites & systems</span><i></i></div>
-        <div class="kx-window-copy" data-preview aria-hidden="true"><p>{landingCopy.title.map(line=><span>{line}</span>)}</p><span>{landingCopy.description}</span></div>
-      </div>
-      <section class="kx-hero" data-hero aria-labelledby="kx-title">
-        <h1 id="kx-title">{landingCopy.title.map((line,i)=><span class="kx-title-mask"><span class="kx-title-line">{line}</span>{i<landingCopy.title.length-1 && ' '}</span>)}</h1>
-        <div class="kx-hero-bottom"><p>{landingCopy.description}</p><a class="kx-button" href="#brief">Let’s build yours <span aria-hidden="true">↗</span></a></div>
-        <a class="kx-scroll" href="#approach">Scroll to explore <span aria-hidden="true">↓</span></a>
-      </section>
-      <section class="kx-horizon" data-horizon aria-labelledby="kx-horizon-title">
-        <p class="kx-section-label">What we build</p>
-        <h2 id="kx-horizon-title">A website is<br />only the beginning.</h2>
-        <p>Connect the way your business looks with the way it works.</p>
-        <span class="kx-horizon-note">Websites / Applications / Automation</span>
-      </section>
-      <div class="kx-journey-line" aria-hidden="true"><span data-progress></span></div>
+  <div class="loader-window">
+    <i></i>
+    <i></i>
+    <i></i>
+    <i></i>
+    <div class="loader-wordmark">
+      keXar <span>Labs</span>
+    </div>
+    <div class="loader-line">
+      <span></span>
     </div>
   </div>
-  <section id="approach" class="kx-approach" aria-labelledby="approach-title">
-    <div class="kx-approach-heading"><p class="kx-section-label">From brief to launch</p><h2 id="approach-title">Know what’s next.<br />At every step.</h2></div>
-    <div class="kx-steps">{steps.map(([title,description])=><article><h3>{title}</h3><p>{description}</p></article>)}</div>
-  </section>
-  <section id="brief" class="kx-brief" aria-labelledby="brief-title">
-    <div class="kx-brief-heading"><p class="kx-section-label">Start a project</p><h2 id="brief-title">What are<br />you building?</h2><p>Tell us about your business, what you need, and when you need it.</p>{publicConfig.email && <a class="kx-text-link" href={`mailto:${publicConfig.email}`}>{publicConfig.email} ↗</a>}{publicConfig.whatsapp && <a class="kx-text-link" href={whatsappUrl()} target="_blank" rel="noopener noreferrer">Talk on WhatsApp ↗</a>}</div>
-
-  </section>
+  <div class="loader-bottom">
+    <span class="loader-status">Preparing your first look</span>
+    <span class="loader-count" aria-hidden="true">
+      00<span>%</span>
+    </span>
+  </div>
 </div>
+<div class="studio-cursor" aria-hidden="true">
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+  <span></span>
+</div>
+
+<section
+  class="journey"
+  id="top"
+  aria-label="From the first impression to every screen"
+>
+  <div class="journey-stage">
+    <div class="device-caption">
+      <span>Designed with purpose.</span>
+      <h2>Built for every screen.</h2>
+      <p>The keXar website concept.</p>
+    </div>
+    <div class="journey-panel">
+      <div class="hero">
+        <picture>
+          <source
+            media="(max-width: 900px)"
+            srcset="/images/city-interior.jpg"
+          />
+          <img
+            class="hero-image"
+            src="/images/city-interior-hd.webp"
+            alt="City skyline beyond the tall windows of a quiet architectural interior"
+            fetchpriority="high"
+            width="4400"
+            height="2476"
+          />
+        </picture>
+        <div class="hero-shade"></div>
+        <div class="screen-brand" aria-hidden="true">
+          keXar <small>Labs</small>
+          <span>
+            Start a project <Arrow />
+          </span>
+        </div>
+        <div class="hero-copy">
+          <p class="hero-label">Web design & development</p>
+          <h1>
+            <span>Your website.</span>
+            <span>From sketch</span>
+            <span>to launch.</span>
+          </h1>
+        </div>
+        <div class="hero-bottom">
+          <span class="scroll-cue">
+            <i></i>Scroll to see it take shape
+          </span>
+          <p>
+            Websites, web applications and automation.
+            <br />
+            Designed and developed around your business.
+          </p>
+        </div>
+      </div>
+      <div class="laptop-camera" aria-hidden="true">
+        <i></i>
+      </div>
+      <div class="laptop-hinge" aria-hidden="true"></div>
+      <div class="laptop-foot" aria-hidden="true">
+        <span></span>
+      </div>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="phone-screen">
+        <img src="/images/city-interior.jpg" alt="" />
+        <div class="phone-shade"></div>
+        <div class="phone-status">
+          <b>9:41</b>
+          <svg viewBox="0 0 50 12" fill="currentColor">
+            <path d="M0 9h3v3H0zm4-3h3v6H4zm4-3h3v9H8zm4-3h3v12h-3z" />
+            <path d="M20 4q6-6 12 0l-2 2q-4-4-8 0zm3 3q3-3 6 0l-3 4z" />
+            <rect
+              x="36"
+              y="2"
+              width="12"
+              height="8"
+              rx="2"
+              fill="none"
+              stroke="currentColor"
+            />
+            <path d="M38 4h8v4h-8zm11 0h1v4h-1z" />
+          </svg>
+        </div>
+        <div class="phone-brand">
+          keXar <small>Labs</small>
+          <span>
+            <Arrow />
+          </span>
+        </div>
+        <p>
+          Your
+          <br />
+          website.
+          <br />
+          From sketch
+          <br />
+          to launch.
+        </p>
+        <span class="phone-desc">
+          Designed and developed
+          <br />
+          around your business.
+        </span>
+      </div>
+      <div class="phone-camera">
+        <i></i>
+      </div>
+      <div class="phone-home"></div>
+      <i class="phone-button phone-action"></i>
+      <i class="phone-button phone-volume-up"></i>
+      <i class="phone-button phone-volume-down"></i>
+      <i class="phone-button phone-power"></i>
+      <i class="phone-antenna antenna-top"></i>
+      <i class="phone-antenna antenna-bottom"></i>
+    </div>
+    <div class="device-baseline">
+      <span>One idea. Every screen.</span>
+      <span>
+        Keep scrolling <Arrow direction="down" />
+      </span>
+    </div>
+  </div>
+</section>
+<section class="bridge" aria-label="Design and development">
+  <p class="section-label">From the first impression to the last detail.</p>
+  <h2>
+    <span>A website people notice.</span>
+    <span>A business they understand.</span>
+  </h2>
+  <div class="bridge-bottom">
+    <span class="bridge-arrow" aria-hidden="true">
+      <Arrow direction="down-right" />
+    </span>
+    <p>
+      How it looks, how it reads, how it works.
+      <br />
+      We design and build the whole experience.
+    </p>
+  </div>
+</section>
+<section class="selected-work" id="work" aria-labelledby="work-heading">
+  <div class="work-heading">
+    <h2 id="work-heading">
+      Selected work<span>.</span>
+    </h2>
+    <p>
+      A closer look at the work.
+      <br />
+      Case studies are on their way.
+    </p>
+  </div>
+  <div class="work-grid">
+    {workSlots.map((work, index) => (
+      <article class:list={["work-slot", `work-slot-${index + 1}`]}>
+        <div class="work-window" data-cursor="Scroll">
+          <div class="work-reveal" aria-hidden="true">
+            <span>keXar Labs</span>
+          </div>
+          <div class="work-blank">
+            <div class="work-corner corner-tl"></div>
+            <div class="work-corner corner-tr"></div>
+            <div class="work-corner corner-bl"></div>
+            <div class="work-corner corner-br"></div>
+            <div
+              class:list={["work-stage", `work-stage-${work.layout}`]}
+              aria-hidden="true"
+            >
+              <i></i>
+              <i></i>
+              <i></i>
+            </div>
+            <div class="work-empty">
+              <span>{work.kind}</span>
+              <p>
+                Space for
+                <br />
+                what comes next.
+              </p>
+              <small>Case study coming soon</small>
+            </div>
+          </div>
+        </div>
+        <div class="work-meta">
+          <h3>{work.title}</h3>
+          <span>To be added</span>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+<section class="scope" id="scope" aria-label="What we build">
+  <div class="scope-stage">
+    <article class="service service-web">
+      <div class="service-top">
+        <p>What we build</p>
+        <span>Design + development</span>
+      </div>
+      <h2>
+        Websites<span class="title-dot">.</span>
+      </h2>
+      <div class="service-description">
+        <h3>
+          Your business,
+          <br />
+          clearly on the web.
+        </h3>
+        <p>
+          A site that explains what you do and makes the next step easy to find.
+        </p>
+        <ul>
+          <li>Content & navigation</li>
+          <li>Custom design & responsive build</li>
+          <li>Enquiry flow & launch</li>
+        </ul>
+        <a href="#contact">
+          Let's build your website{" "}
+          <span>
+            <Arrow />
+          </span>
+        </a>
+      </div>
+      <div class="web-art" aria-hidden="true">
+        <div class="web-outline"></div>
+        <div class="web-page">
+          <div class="mini-nav">
+            <b>keXar Labs</b>
+            <span>
+              What we build &nbsp; <Arrow />
+            </span>
+          </div>
+          <div class="mini-hero">
+            <img src="/images/city-interior.jpg" alt="" />
+            <p>
+              Your website.
+              <br />
+              From sketch
+              <br />
+              to launch.
+            </p>
+          </div>
+          <div class="mini-footer">
+            <span>Designed with purpose.</span>
+            <b>
+              Built for
+              <br />
+              every screen.
+            </b>
+          </div>
+        </div>
+        <div class="web-measure">
+          <span>Content</span>
+          <i></i>
+          <span>Design</span>
+          <i></i>
+          <span>Development</span>
+        </div>
+      </div>
+      <div class="service-bottom">
+        <span>keXar website concept</span>
+        <span>
+          Continue to applications <Arrow direction="down" />
+        </span>
+      </div>
+    </article>
+    <article class="service service-app">
+      <div class="service-top">
+        <p>What we build</p>
+        <span>Interface + development</span>
+      </div>
+      <h2>
+        Web applications<span class="title-dot">.</span>
+      </h2>
+      <div class="service-description">
+        <h3>
+          Give the work
+          <br />a place to happen.
+        </h3>
+        <p>
+          Purpose-built interfaces for your customers and team, shaped around
+          the tasks they need to complete.
+        </p>
+        <ul>
+          <li>User journeys & interface design</li>
+          <li>Data, permissions & workflows</li>
+          <li>Agreed system integrations</li>
+        </ul>
+        <a href="#contact">
+          Tell us what needs to work{" "}
+          <span>
+            <Arrow />
+          </span>
+        </a>
+      </div>
+      <div class="app-art" aria-hidden="true">
+        <div class="app-plane app-back">
+          <span>Data</span>
+          <div class="data-row">
+            <i>name</i>
+            <b>Text</b>
+          </div>
+          <div class="data-row">
+            <i>email</i>
+            <b>Email</b>
+          </div>
+          <div class="data-row">
+            <i>service</i>
+            <b>Selection</b>
+          </div>
+          <div class="data-row">
+            <i>brief</i>
+            <b>Long text</b>
+          </div>
+        </div>
+        <div class="app-plane app-front">
+          <div class="mini-nav">
+            <b>Project brief</b>
+            <span>Interface</span>
+          </div>
+          <strong>
+            A clear place
+            <br />
+            to start.
+          </strong>
+          <div class="drawn-input">
+            Your name{" "}
+            <span>
+              <Arrow />
+            </span>
+          </div>
+          <div class="drawn-input">Email address</div>
+          <div class="drawn-input drawn-large">What do you have in mind?</div>
+          <div class="drawn-button">
+            Continue{" "}
+            <span>
+              <Arrow direction="right" />
+            </span>
+          </div>
+        </div>
+        <p class="art-caption">One interface. The structure behind it.</p>
+      </div>
+      <div class="service-bottom">
+        <span>Interface & data — scope illustration</span>
+        <span>
+          Continue to automation <Arrow direction="down" />
+        </span>
+      </div>
+    </article>
+    <article class="service service-auto">
+      <div class="service-top">
+        <p>What we build</p>
+        <span>Workflow + integration</span>
+      </div>
+      <h2>
+        Automation<span class="title-dot">.</span>
+      </h2>
+      <div class="service-description">
+        <h3>
+          Less repetition.
+          <br />A clearer process.
+        </h3>
+        <p>
+          Connect the tools you use and define what should happen next, with
+          human review where it matters.
+        </p>
+        <ul>
+          <li>Forms, data & tool connections</li>
+          <li>Rules, notifications & handoffs</li>
+          <li>AI assistance where it helps</li>
+        </ul>
+        <a href="#contact">
+          Talk through your workflow{" "}
+          <span>
+            <Arrow />
+          </span>
+        </a>
+      </div>
+      <div class="automation-art" aria-hidden="true">
+        <div class="automation-source">
+          <span>Incoming request</span>
+          <p>Website enquiry</p>
+          <i></i>
+          <i></i>
+          <i></i>
+          <small>Information received</small>
+        </div>
+        <div class="automation-connection">
+          <span></span>
+          <b>
+            <Arrow direction="right" />
+          </b>
+        </div>
+        <div class="automation-brief">
+          <div class="mini-nav">
+            <b>Project brief</b>
+            <span>Prepared</span>
+          </div>
+          <h4>
+            Ready for
+            <br />a closer look.
+          </h4>
+          <div>
+            <span>Request</span>
+            <b>Organised</b>
+          </div>
+          <div>
+            <span>Next step</span>
+            <b>Your decision</b>
+          </div>
+          <footer>
+            Awaiting human review{" "}
+            <span>
+              <Arrow />
+            </span>
+          </footer>
+        </div>
+        <p class="art-caption">
+          From incoming information to a brief you can review.
+        </p>
+      </div>
+      <div class="service-bottom">
+        <span>Workflow illustration</span>
+        <span>
+          From scope to handover <Arrow direction="down" />
+        </span>
+      </div>
+    </article>
+  </div>
+</section>
+<section class="approach" id="approach">
+  <div class="approach-intro">
+    <p class="section-label">How we work</p>
+    <h2>
+      Good work starts
+      <br />
+      with a clear brief.
+    </h2>
+    <p>
+      We agree on what needs to be built.
+      <br />
+      Then make it tangible, step by step.
+    </p>
+  </div>
+  <div class="process-list">
+    <article>
+      <div class="process-rule"></div>
+      <h3>Define it.</h3>
+      <p>
+        The purpose, content, scope and timeline.
+        <br />A shared starting point before we design.
+      </p>
+      <span aria-hidden="true">
+        <Arrow direction="down-right" />
+      </span>
+    </article>
+    <article>
+      <div class="process-rule"></div>
+      <h3>Shape it.</h3>
+      <p>
+        Design and development you can review
+        <br />
+        as the work takes form.
+      </p>
+      <span aria-hidden="true">
+        <Arrow direction="down-right" />
+      </span>
+    </article>
+    <article>
+      <div class="process-rule"></div>
+      <h3>Build it.</h3>
+      <p>
+        Prepare the details for launch,
+        <br />
+        handover and the next steps we agree on.
+      </p>
+      <span aria-hidden="true">
+        <Arrow direction="down-right" />
+      </span>
+    </article>
+  </div>
+</section>
+<section class="contact" id="contact">
+  <div class="contact-opening">
+    <p class="section-label">Your next project</p>
+    <h2>
+      <span>What do you</span>
+      <span>have in mind?</span>
+    </h2>
+    <span class="contact-arrow" aria-hidden="true">
+      <Arrow direction="down-left" />
+    </span>
+  </div>
+  <div class="contact-body">
+    <div class="contact-note">
+      <p>
+        A new website.
+        <br />A tool for your team.
+        <br />A better way to work.
+      </p>
+      <p>
+        Start with what you know.
+        <br />
+        We can work through the details.
+      </p>
+      <span class="form-note" id="preview-note">
+        <i></i>UI preview — nothing is sent or saved.
+      </span>
+    </div>
+    <form
+      class="project-form"
+      aria-label="Project brief preview"
+      aria-describedby="preview-note"
+      onsubmit="return false"
+    >
+      <fieldset>
+        <legend>What can we help with?</legend>
+        <div class="service-choices">
+          <label>
+            <input type="checkbox" name="service" value="website" />
+            <span>
+              Website{" "}
+              <i>
+                <Arrow />
+              </i>
+            </span>
+          </label>
+          <label>
+            <input type="checkbox" name="service" value="application" />
+            <span>
+              Web application{" "}
+              <i>
+                <Arrow />
+              </i>
+            </span>
+          </label>
+          <label>
+            <input type="checkbox" name="service" value="automation" />
+            <span>
+              Automation{" "}
+              <i>
+                <Arrow />
+              </i>
+            </span>
+          </label>
+          <label>
+            <input type="checkbox" name="service" value="discuss" />
+            <span>
+              Let's work it out{" "}
+              <i>
+                <Arrow />
+              </i>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+      <div class="field-row">
+        <label class="form-field">
+          <span>Your name</span>
+          <input
+            name="name"
+            type="text"
+            placeholder="Alex Morgan"
+            autocomplete="name"
+          />
+        </label>
+        <label class="form-field">
+          <span>Email address</span>
+          <input
+            name="email"
+            type="email"
+            placeholder="alex@company.com"
+            autocomplete="email"
+          />
+        </label>
+      </div>
+      <label class="form-field">
+        <span>
+          Company <small>(optional)</small>
+        </span>
+        <input
+          name="company"
+          type="text"
+          placeholder="Your business or organisation"
+          autocomplete="organization"
+        />
+      </label>
+      <label class="form-field">
+        <span>A little about your project</span>
+        <textarea
+          name="brief"
+          rows="3"
+          placeholder="What would you like to build or improve?"
+        ></textarea>
+      </label>
+      <div class="form-action">
+        <button type="button" disabled aria-describedby="sending-note">
+          Send project brief{" "}
+          <span>
+            <Arrow />
+          </span>
+        </button>
+        <p id="sending-note">
+          Sending will be connected later.
+          <br />
+          You can fill in the design preview now.
+        </p>
+      </div>
+    </form>
+  </div>
+  <footer>
+    <a class="footer-brand" href="#top">
+      keXar <span>Labs</span>
+    </a>
+    <span>Websites, applications & automation.</span>
+    <div class="footer-links">
+      <a href="/privacy/">Privacy</a>
+      <a href="#top">
+        Back to top <Arrow direction="up" />
+      </a>
+    </div>
+  </footer>
+</section>
+
 <script>
-  import { initLanding } from '@/scripts/landing';
-  initLanding();
+  import "@/scripts/landing.js";
 </script>
